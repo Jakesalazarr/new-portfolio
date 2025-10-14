@@ -1,0 +1,196 @@
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="container nav-content">
+        <a href="../index.html" class="back-btn">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                <path d="M15 10H5M5 10L10 5M5 10L10 15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back to Portfolio
+        </a>
+        <div class="logo">KURA</div>
+        <div class="nav-links">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#shop" class="nav-link">Shop</a>
+            <a href="#about" class="nav-link">About</a>
+        </div>
+        <div class="nav-actions">
+            <button class="icon-btn search-btn" aria-label="Search">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                    <path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <button class="icon-btn cart-btn" (click)="toggleCart()" aria-label="Shopping cart">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 2L7 8M17 8L15 2M7 8H17M7 8L5 18H19L17 8M10 12V16M14 12V16" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="cart-count">{{ cartItemsCount }}</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="container hero-content">
+        <div class="hero-text">
+            <span class="hero-badge">New Collection 2025</span>
+            <h1 class="hero-title">Timeless Design for Modern Living</h1>
+            <p class="hero-subtitle">
+                Discover our curated collection of Scandinavian-inspired furniture
+                that combines minimalist aesthetics with functional elegance.
+            </p>
+            <div class="hero-cta">
+                <a href="#shop" class="btn btn-primary">Explore Collection</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=600&fit=crop"
+                 alt="Modern Scandinavian furniture" class="hero-img">
+        </div>
+    </div>
+</section>
+
+<!-- Featured Categories -->
+<section class="categories">
+    <div class="container">
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="categories-grid">
+            <div class="category-card" *ngFor="let category of categories">
+                <div class="category-image">
+                    <img [src]="category.image" [alt]="category.name">
+                </div>
+                <div class="category-info">
+                    <h3>{{ category.name }}</h3>
+                    <p>{{ category.description }}</p>
+                    <a href="#" class="category-link">Explore →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section id="shop" class="products">
+    <div class="container">
+        <div class="products-header">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="filters">
+                <button class="filter-btn"
+                        [class.active]="currentFilter === filter"
+                        *ngFor="let filter of filters"
+                        (click)="setFilter(filter)">
+                    {{ filter }}
+                </button>
+            </div>
+        </div>
+
+        <div class="products-grid">
+            <div class="product-card" *ngFor="let product of filteredProducts">
+                <div class="product-image">
+                    <img [src]="product.image" [alt]="product.name">
+                    <span class="product-badge" *ngIf="product.badge">{{ product.badge }}</span>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" (click)="addToCart(product)">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">{{ product.category }}</div>
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <div class="product-price">\${{ product.price }}</div>
+                    <div class="product-rating">
+                        <span class="star" *ngFor="let star of [1,2,3,4,5]"
+                              [class.empty]="star > product.rating">★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about">
+    <div class="container about-content">
+        <div class="about-text">
+            <span class="about-badge">Our Philosophy</span>
+            <h2 class="about-title">Designed for Life, Crafted to Last</h2>
+            <p>
+                At Kura, we believe furniture should be more than just functional.
+                Each piece is thoughtfully designed to enhance your living space while
+                standing the test of time.
+            </p>
+            <p>
+                Our Scandinavian-inspired collection embodies the principles of
+                minimalism, sustainability, and timeless beauty.
+            </p>
+        </div>
+        <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&h=600&fit=crop"
+                 alt="Craftsmanship">
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container footer-content">
+        <div class="footer-section">
+            <h3 class="logo">KURA</h3>
+            <p>Timeless Scandinavian design for modern living.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Shop</h4>
+            <ul>
+                <li><a href="#">New Arrivals</a></li>
+                <li><a href="#">Best Sellers</a></li>
+                <li><a href="#">Sale</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Shipping</a></li>
+                <li><a href="#">Returns</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>2025 Kura Furniture. Built with Angular 17. Part of Senior Fullstack Developer Portfolio.</p>
+    </div>
+</footer>
+
+<!-- Shopping Cart Sidebar -->
+<div class="cart-sidebar" [class.active]="cartOpen">
+    <div class="cart-header">
+        <h3>Shopping Cart</h3>
+        <button class="close-cart" (click)="toggleCart()">×</button>
+    </div>
+    <div class="cart-items">
+        <p class="empty-cart" *ngIf="cart.length === 0">Your cart is empty</p>
+        <div class="cart-item" *ngFor="let item of cart">
+            <div class="cart-item-image">
+                <img [src]="item.image" [alt]="item.name">
+            </div>
+            <div class="cart-item-info">
+                <div class="cart-item-name">{{ item.name }}</div>
+                <div class="cart-item-price">\${{ item.price }}</div>
+                <div class="cart-item-quantity">
+                    <button class="qty-btn" (click)="updateQuantity(item, -1)">−</button>
+                    <span>{{ item.quantity }}</span>
+                    <button class="qty-btn" (click)="updateQuantity(item, 1)">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cart-footer">
+        <div class="cart-total">
+            <span>Total:</span>
+            <span class="total-price">\${{ cartTotal }}</span>
+        </div>
+        <button class="btn btn-primary btn-block">Checkout</button>
+    </div>
+</div>
+<div class="cart-overlay" [class.active]="cartOpen" (click)="toggleCart()"></div>
