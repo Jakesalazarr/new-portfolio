@@ -192,7 +192,7 @@ export default function Dashboard() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
               <h1 style={{ fontSize: '1.75rem', fontWeight: '700', marginBottom: '0.25rem' }}>Dashboard</h1>
-              <p style={{ fontSize: '0.875rem', opacity: 0.6 }}>Welcome back! Here's your crypto overview</p>
+              <p style={{ fontSize: '0.875rem', opacity: 0.6 }}>Welcome back! Here&apos;s your crypto overview</p>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
               <div style={{
@@ -379,6 +379,7 @@ export default function Dashboard() {
                         padding: '6px',
                         overflow: 'hidden'
                       }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={crypto.logo} alt={crypto.name} style={{
                           width: '100%',
                           height: '100%',
