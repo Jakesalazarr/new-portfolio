@@ -1,0 +1,10 @@
+# Cloudflare Pages Redirects
+
+# Redirect www to non-www
+https://www.:domain/* https://:domain/:splat 301!
+
+# SPA fallback for project demos
+/01-kura-angular/* /01-kura-angular/index.html 200
+/02-vogue-react/* /02-vogue-react/index.html 200
+/03-chatai-python/* /03-chatai-python/index.html 200
+/04-analytics-dashboard/* /04-analytics-dashboard/index.html 200
