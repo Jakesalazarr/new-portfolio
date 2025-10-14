@@ -861,6 +861,10 @@ a, button, .project-card, .btn {
         display: flex;
     }
 
+    .hero {
+        padding-top: calc(var(--spacing-3xl) + 90px);
+    }
+
     .hero-cta {
         flex-direction: column;
     }

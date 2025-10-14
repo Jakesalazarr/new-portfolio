@@ -873,12 +873,45 @@
   }
 
   .nav-content {
-    height: 80px;
-    gap: 1.5rem;
+    min-height: 70px;
+    height: auto;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+
+  .back-btn {
+    font-size: 0.8125rem;
+    padding: 0.4rem 0.75rem;
+    gap: 0.4rem;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
   }
 
   .nav-links {
     display: none;
+  }
+
+  .nav-actions {
+    gap: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   .hero-title {
