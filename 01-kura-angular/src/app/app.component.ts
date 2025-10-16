@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 interface Product {
   id: number;
@@ -27,7 +28,7 @@ interface Category {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -47,6 +48,11 @@ export class AppComponent {
 
   // Checkout Demo state
   showCheckoutDemo = false;
+
+  // Search state
+  searchOpen = false;
+  searchQuery = '';
+  searchResults: Product[] = [];
 
   categories: Category[] = [
     {
@@ -329,5 +335,48 @@ export class AppComponent {
   closeCheckoutDemo(): void {
     this.showCheckoutDemo = false;
     document.body.style.overflow = '';
+  }
+
+  // Search Methods
+  openSearch(): void {
+    this.searchOpen = true;
+    this.searchQuery = '';
+    this.searchResults = [];
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeSearch(): void {
+    this.searchOpen = false;
+    this.searchQuery = '';
+    this.searchResults = [];
+    document.body.style.overflow = '';
+  }
+
+  handleSearch(): void {
+    if (this.searchQuery.trim() === '') {
+      this.searchResults = [];
+      return;
+    }
+
+    const lowerQuery = this.searchQuery.toLowerCase();
+    this.searchResults = this.products.filter(product =>
+      product.name.toLowerCase().includes(lowerQuery) ||
+      product.category.toLowerCase().includes(lowerQuery) ||
+      (product.description && product.description.toLowerCase().includes(lowerQuery)) ||
+      (product.materials && product.materials.some(m => m.toLowerCase().includes(lowerQuery)))
+    );
+  }
+
+  handleSearchSubmit(event: Event): void {
+    event.preventDefault();
+    if (this.searchResults.length > 0) {
+      this.openQuickView(this.searchResults[0]);
+      this.closeSearch();
+    }
+  }
+
+  searchSuggestion(term: string): void {
+    this.searchQuery = term;
+    this.handleSearch();
   }
 }

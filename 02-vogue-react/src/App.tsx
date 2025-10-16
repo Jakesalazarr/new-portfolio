@@ -37,6 +37,11 @@ function App() {
   // Checkout Demo state
   const [showCheckoutDemo, setShowCheckoutDemo] = useState(false)
 
+  // Search state
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<Product[]>([])
+
   const categories: Category[] = [
     {
       name: 'Women',
@@ -287,6 +292,48 @@ function App() {
     document.body.style.overflow = ''
   }
 
+  // Search Methods
+  const openSearch = () => {
+    setSearchOpen(true)
+    setSearchQuery('')
+    setSearchResults([])
+    document.body.style.overflow = 'hidden'
+  }
+
+  const closeSearch = () => {
+    setSearchOpen(false)
+    setSearchQuery('')
+    setSearchResults([])
+    document.body.style.overflow = ''
+  }
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+
+    if (query.trim() === '') {
+      setSearchResults([])
+      return
+    }
+
+    const lowerQuery = query.toLowerCase()
+    const results = products.filter(product =>
+      product.name.toLowerCase().includes(lowerQuery) ||
+      product.category.toLowerCase().includes(lowerQuery) ||
+      (product.description && product.description.toLowerCase().includes(lowerQuery)) ||
+      (product.materials && product.materials.some(m => m.toLowerCase().includes(lowerQuery)))
+    )
+
+    setSearchResults(results)
+  }
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchResults.length > 0) {
+      openQuickView(searchResults[0])
+      closeSearch()
+    }
+  }
+
   return (
     <>
       {/* Navigation */}
@@ -305,7 +352,7 @@ function App() {
             <a href="#about" className="nav-link">About</a>
           </div>
           <div className="nav-actions">
-            <button className="icon-btn search-btn" aria-label="Search">
+            <button className="icon-btn search-btn" aria-label="Search" onClick={openSearch}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <circle cx="11" cy="11" r="8" strokeWidth="2"/>
                 <path d="M21 21l-4.35-4.35" strokeWidth="2" strokeLinecap="round"/>
@@ -671,6 +718,85 @@ function App() {
         </div>
       </div>
       <div className={`checkout-demo-overlay ${showCheckoutDemo ? 'active' : ''}`} onClick={closeCheckoutDemo}></div>
+
+      {/* Search Modal */}
+      <div className={`search-modal ${searchOpen ? 'active' : ''}`}>
+        <div className="search-modal-content">
+          <button className="close-search" onClick={closeSearch}>×</button>
+
+          <form className="search-form" onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search for products, categories, materials..."
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
+              autoFocus
+            />
+            <button type="submit" className="search-submit">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="8" strokeWidth="2"/>
+                <path d="M21 21l-4.35-4.35" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </button>
+          </form>
+
+          <div className="search-suggestions">
+            {searchQuery === '' && (
+              <div className="popular-searches">
+                <h3>Popular Searches</h3>
+                <div className="suggestion-tags">
+                  {['Silk', 'Blazer', 'Leather', 'New', 'Sale'].map(term => (
+                    <button
+                      key={term}
+                      className="suggestion-tag"
+                      onClick={() => handleSearch(term)}
+                    >
+                      {term}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="search-results">
+            {searchQuery && searchResults.length === 0 && (
+              <div className="no-results">
+                <p>No products found for "{searchQuery}"</p>
+                <p className="search-hint">Try searching for categories like "Women" or materials like "Silk"</p>
+              </div>
+            )}
+
+            {searchResults.length > 0 && (
+              <>
+                <div className="results-header">
+                  <h3>{searchResults.length} Results for "{searchQuery}"</h3>
+                </div>
+                <div className="results-grid">
+                  {searchResults.map(product => (
+                    <div
+                      key={product.id}
+                      className="search-result-item"
+                      onClick={() => { openQuickView(product); closeSearch() }}
+                    >
+                      <div className="result-image">
+                        <img src={product.image} alt={product.name} />
+                      </div>
+                      <div className="result-info">
+                        <span className="result-category">{product.category}</span>
+                        <h4 className="result-name">{product.name}</h4>
+                        <span className="result-price">${product.price}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className={`search-overlay ${searchOpen ? 'active' : ''}`} onClick={closeSearch}></div>
     </>
   )
 }

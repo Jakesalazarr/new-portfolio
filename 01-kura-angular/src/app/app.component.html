@@ -14,7 +14,7 @@
             <a href="#about" class="nav-link">About</a>
         </div>
         <div class="nav-actions">
-            <button class="icon-btn search-btn" aria-label="Search">
+            <button class="icon-btn search-btn" aria-label="Search" (click)="openSearch()">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <circle cx="11" cy="11" r="8" stroke-width="2"/>
                     <path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
@@ -321,3 +321,73 @@
     </div>
 </div>
 <div class="checkout-demo-overlay" [class.active]="showCheckoutDemo" (click)="closeCheckoutDemo()"></div>
+
+<!-- Search Modal -->
+<div class="search-modal" [class.active]="searchOpen">
+    <div class="search-modal-content">
+        <button class="close-search" (click)="closeSearch()">×</button>
+
+        <form class="search-form" (submit)="handleSearchSubmit($event)">
+            <input
+                type="text"
+                class="search-input"
+                placeholder="Search for furniture, categories, materials..."
+                [(ngModel)]="searchQuery"
+                (input)="handleSearch()"
+                name="search"
+                autofocus
+            />
+            <button type="submit" class="search-submit">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                    <path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </form>
+
+        <div class="search-suggestions">
+            <div class="popular-searches" *ngIf="searchQuery === ''">
+                <h3>Popular Searches</h3>
+                <div class="suggestion-tags">
+                    <button
+                        class="suggestion-tag"
+                        *ngFor="let term of ['Oak', 'Nordic', 'Storage', 'New', 'Sale']"
+                        (click)="searchSuggestion(term)"
+                    >
+                        {{ term }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-results">
+            <div class="no-results" *ngIf="searchQuery && searchResults.length === 0">
+                <p>No products found for "{{ searchQuery }}"</p>
+                <p class="search-hint">Try searching for categories like "Tables" or materials like "Oak"</p>
+            </div>
+
+            <div *ngIf="searchResults.length > 0">
+                <div class="results-header">
+                    <h3>{{ searchResults.length }} Results for "{{ searchQuery }}"</h3>
+                </div>
+                <div class="results-grid">
+                    <div
+                        class="search-result-item"
+                        *ngFor="let product of searchResults"
+                        (click)="openQuickView(product); closeSearch()"
+                    >
+                        <div class="result-image">
+                            <img [src]="product.image" [alt]="product.name" />
+                        </div>
+                        <div class="result-info">
+                            <span class="result-category">{{ product.category }}</span>
+                            <h4 class="result-name">{{ product.name }}</h4>
+                            <span class="result-price">${{ product.price }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="search-overlay" [class.active]="searchOpen" (click)="closeSearch()"></div>
