@@ -1389,33 +1389,358 @@
 
   .product-gallery {
     border-radius: 24px 24px 0 0;
+    padding: 2rem;
   }
 
   .main-image {
     height: 350px;
   }
+
+  .product-details {
+    padding: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
+  .quick-view-modal {
+    padding: 1rem;
+  }
+
   .modal-content {
     border-radius: 16px;
-    margin: 1rem;
+    max-height: 95vh;
+  }
+
+  .modal-close {
+    width: 40px;
+    height: 40px;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.25rem;
+  }
+
+  .product-gallery {
+    padding: 1.5rem;
+  }
+
+  .main-image {
+    height: 280px;
+    margin-bottom: 1rem;
+  }
+
+  .thumbnails {
+    gap: 0.5rem;
+  }
+
+  .thumbnail {
+    width: 60px;
+    height: 60px;
+  }
+
+  .product-details {
+    padding: 1.5rem;
   }
 
   .modal-product-name {
     font-size: 1.75rem;
   }
 
+  .modal-price {
+    font-size: 1.5rem;
+  }
+
+  .product-tabs {
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
   .related-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .related-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    img {
+      width: 80px;
+      height: 80px;
+      flex-shrink: 0;
+    }
+
+    .related-info {
+      flex: 1;
+      padding: 0.5rem;
+
+      h4 {
+        font-size: 0.9375rem;
+      }
+    }
   }
 
   .modal-actions {
     flex-direction: column;
+    gap: 0.75rem;
   }
 
   .quantity-selector {
     width: 100%;
     justify-content: center;
+  }
+
+  .btn-add-to-cart {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-view-modal {
+    padding: 0;
+  }
+
+  .modal-content {
+    border-radius: 0;
+    max-width: 100%;
+    max-height: 100vh;
+    height: 100vh;
+  }
+
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .product-gallery {
+    padding: 1rem;
+    border-radius: 0;
+  }
+
+  .main-image {
+    height: 240px;
+    border-radius: 12px;
+  }
+
+  .product-details {
+    padding: 1rem;
+  }
+
+  .modal-product-name {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .modal-price {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .product-tabs {
+    margin-bottom: 1.5rem;
+  }
+
+  .tab-btn {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+
+  .related-products {
+    margin-top: 2rem;
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+/* ==========================================
+   CHECKOUT DEMO MODAL
+   ========================================== */
+
+.checkout-demo-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3500;
+  padding: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+
+    .checkout-demo-content {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+.checkout-demo-content {
+  background: white;
+  border-radius: 24px;
+  max-width: 500px;
+  width: 100%;
+  padding: 3rem;
+  text-align: center;
+  box-shadow: 0 25px 100px rgba(0, 0, 0, 0.3);
+  transform: scale(0.9) translateY(30px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.checkout-icon {
+  margin-bottom: 2rem;
+  animation: checkmarkScale 0.6s ease-out 0.2s both;
+
+  svg {
+    display: inline-block;
+  }
+
+  circle {
+    animation: checkmarkCircle 0.8s ease-out;
+  }
+
+  path {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    animation: checkmarkPath 0.5s ease-out 0.4s forwards;
+  }
+}
+
+@keyframes checkmarkScale {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes checkmarkCircle {
+  0% {
+    stroke-dasharray: 0 240;
+  }
+  100% {
+    stroke-dasharray: 240 240;
+  }
+}
+
+@keyframes checkmarkPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.checkout-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 2rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.checkout-message {
+  color: #64748b;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.checkout-footer {
+  p {
+    color: #8B7355;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 0.9375rem;
+  }
+}
+
+.btn-close-demo {
+  padding: 0.875rem 2rem;
+  background: #8B7355;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(139, 115, 85, 0.3);
+
+  &:hover {
+    background: #76604a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(139, 115, 85, 0.4);
+  }
+}
+
+.checkout-demo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 3499;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  backdrop-filter: blur(4px);
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-demo-modal {
+    padding: 1rem;
+  }
+
+  .checkout-demo-content {
+    padding: 2rem;
+    border-radius: 16px;
+  }
+
+  .checkout-title {
+    font-size: 1.5rem;
+  }
+
+  .checkout-message {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-demo-content {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .checkout-icon svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .checkout-title {
+    font-size: 1.25rem;
   }
 }

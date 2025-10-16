@@ -104,7 +104,7 @@
                 <div class="product-info">
                     <div class="product-category">{{ product.category }}</div>
                     <h3 class="product-name">{{ product.name }}</h3>
-                    <div class="product-price">\${{ product.price }}</div>
+                    <div class="product-price">${{ product.price }}</div>
                     <div class="product-rating">
                         <span class="star" *ngFor="let star of [1,2,3,4,5]"
                               [class.empty]="star > product.rating">★</span>
@@ -181,7 +181,7 @@
             </div>
             <div class="cart-item-info">
                 <div class="cart-item-name">{{ item.name }}</div>
-                <div class="cart-item-price">\${{ item.price }}</div>
+                <div class="cart-item-price">${{ item.price }}</div>
                 <div class="cart-item-quantity">
                     <button class="qty-btn" (click)="updateQuantity(item, -1)">−</button>
                     <span>{{ item.quantity }}</span>
@@ -193,9 +193,9 @@
     <div class="cart-footer">
         <div class="cart-total">
             <span>Total:</span>
-            <span class="total-price">\${{ cartTotal }}</span>
+            <span class="total-price">${{ cartTotal }}</span>
         </div>
-        <button class="btn btn-primary btn-block">Checkout</button>
+        <button class="btn btn-primary btn-block" (click)="handleCheckout()">Checkout</button>
     </div>
 </div>
 <div class="cart-overlay" [class.active]="cartOpen" (click)="toggleCart()"></div>
@@ -299,3 +299,25 @@
     </div>
 </div>
 <div class="quick-view-overlay" [class.active]="quickViewOpen" (click)="closeQuickView()"></div>
+
+<!-- Checkout Demo Modal -->
+<div class="checkout-demo-modal" [class.active]="showCheckoutDemo">
+    <div class="checkout-demo-content">
+        <div class="checkout-icon">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="40" r="38" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-dasharray="0.5 4"/>
+                <path d="M25 40L35 50L55 30" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h2 class="checkout-title">Thanks for checking out!</h2>
+        <p class="checkout-message">
+            This is a demo portfolio project showcasing Angular 17 and modern ecommerce design.
+            No actual orders are processed.
+        </p>
+        <div class="checkout-footer">
+            <p>Created by Jacob Salazar</p>
+            <button class="btn-close-demo" (click)="closeCheckoutDemo()">Got it!</button>
+        </div>
+    </div>
+</div>
+<div class="checkout-demo-overlay" [class.active]="showCheckoutDemo" (click)="closeCheckoutDemo()"></div>

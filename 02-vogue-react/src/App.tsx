@@ -11,6 +11,10 @@ interface Product {
   image: string
   filter: string[]
   quantity?: number
+  description?: string
+  materials?: string[]
+  details?: string
+  images?: string[]
 }
 
 interface Category {
@@ -23,6 +27,15 @@ function App() {
   const [currentFilter, setCurrentFilter] = useState('all')
   const [cart, setCart] = useState<Product[]>([])
   const [cartOpen, setCartOpen] = useState(false)
+
+  // Quick View Modal states
+  const [quickViewOpen, setQuickViewOpen] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+  const [activeTab, setActiveTab] = useState('details')
+
+  // Checkout Demo state
+  const [showCheckoutDemo, setShowCheckoutDemo] = useState(false)
 
   const categories: Category[] = [
     {
@@ -56,7 +69,15 @@ function App() {
       rating: 5,
       badge: 'new',
       image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop',
-      filter: ['all', 'new', 'popular']
+      filter: ['all', 'new', 'popular'],
+      description: 'Luxurious silk evening dress featuring a graceful silhouette and timeless elegance. Perfect for gala events and sophisticated occasions.',
+      materials: ['100% Mulberry Silk', 'Satin Lining', 'Hidden Zipper'],
+      details: 'Size: XS-XL | Dry Clean Only | Made in Italy',
+      images: [
+        'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1550928431-ee0ec6db30d3?w=600&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1563178406-4cdc2923acbc?w=600&h=600&fit=crop'
+      ]
     },
     {
       id: 2,
@@ -65,7 +86,10 @@ function App() {
       price: 249,
       rating: 5,
       image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&h=500&fit=crop',
-      filter: ['all', 'popular']
+      filter: ['all', 'popular'],
+      description: 'Impeccably crafted blazer with a modern slim fit. Features premium wool construction and refined detailing for the contemporary gentleman.',
+      materials: ['Virgin Wool', 'Viscose Lining', 'Mother of Pearl Buttons'],
+      details: 'Size: 36-46 | Professional Dry Clean | Handmade in London'
     },
     {
       id: 3,
@@ -75,7 +99,10 @@ function App() {
       rating: 4,
       badge: 'sale',
       image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=500&fit=crop',
-      filter: ['all', 'sale']
+      filter: ['all', 'sale'],
+      description: 'Ultra-soft cashmere sweater offering unparalleled comfort and warmth. A versatile piece that transitions effortlessly from day to evening.',
+      materials: ['100% Mongolian Cashmere', 'Ribbed Trim', 'Relaxed Fit'],
+      details: 'Size: XS-L | Hand Wash Cold | Made in Scotland'
     },
     {
       id: 4,
@@ -84,7 +111,10 @@ function App() {
       price: 299,
       rating: 5,
       image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=500&fit=crop',
-      filter: ['all', 'new', 'popular']
+      filter: ['all', 'new', 'popular'],
+      description: 'Sophisticated leather handbag combining functionality with luxury. Features multiple compartments and signature gold-tone hardware.',
+      materials: ['Full Grain Leather', 'Suede Interior', 'Brass Hardware'],
+      details: 'Dimensions: 12" x 9" x 4" | Adjustable Strap | Made in Florence'
     },
     {
       id: 5,
@@ -207,6 +237,56 @@ function App() {
   const cartItemsCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0)
   const cartTotal = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0)
 
+  // Quick View Modal Methods
+  const openQuickView = (product: Product) => {
+    setSelectedProduct(product)
+    setSelectedImageIndex(0)
+    setActiveTab('details')
+    setQuickViewOpen(true)
+    document.body.style.overflow = 'hidden'
+  }
+
+  const closeQuickView = () => {
+    setQuickViewOpen(false)
+    setSelectedProduct(null)
+    document.body.style.overflow = ''
+  }
+
+  const selectImage = (index: number) => {
+    setSelectedImageIndex(index)
+  }
+
+  const getRelatedProducts = (product: Product) => {
+    return products
+      .filter(p => p.category === product.category && p.id !== product.id)
+      .slice(0, 3)
+  }
+
+  // Explore Category Handler
+  const exploreCategory = (categoryName: string) => {
+    const categoryProducts = products.filter(p => p.category === categoryName)
+    if (categoryProducts.length > 0) {
+      openQuickView(categoryProducts[0])
+    }
+  }
+
+  // Checkout Demo Handler
+  const handleCheckout = () => {
+    setShowCheckoutDemo(true)
+    setCartOpen(false)
+    document.body.style.overflow = 'hidden'
+
+    // Auto close after 3 seconds
+    setTimeout(() => {
+      closeCheckoutDemo()
+    }, 3000)
+  }
+
+  const closeCheckoutDemo = () => {
+    setShowCheckoutDemo(false)
+    document.body.style.overflow = ''
+  }
+
   return (
     <>
       {/* Navigation */}
@@ -278,7 +358,13 @@ function App() {
                 <div className="category-info">
                   <h3>{category.name}</h3>
                   <p>{category.description}</p>
-                  <a href="#" className="category-link">Explore →</a>
+                  <a
+                    href="#"
+                    className="category-link"
+                    onClick={(e) => { e.preventDefault(); exploreCategory(category.name) }}
+                  >
+                    Explore →
+                  </a>
                 </div>
               </div>
             ))}
@@ -311,6 +397,9 @@ function App() {
                   <img src={product.image} alt={product.name} />
                   {product.badge && <span className="product-badge">{product.badge}</span>}
                   <div className="product-actions">
+                    <button className="quick-view-btn" onClick={() => openQuickView(product)}>
+                      Quick View
+                    </button>
                     <button className="add-to-cart-btn" onClick={() => addToCart(product)}>
                       Add to Cart
                     </button>
@@ -421,10 +510,167 @@ function App() {
             <span>Total:</span>
             <span className="total-price">${cartTotal}</span>
           </div>
-          <button className="btn btn-primary btn-block">Checkout</button>
+          <button className="btn btn-primary btn-block" onClick={handleCheckout}>Checkout</button>
         </div>
       </div>
       <div className={`cart-overlay ${cartOpen ? 'active' : ''}`} onClick={() => setCartOpen(false)}></div>
+
+      {/* Quick View Modal */}
+      {selectedProduct && (
+        <>
+          <div className={`quick-view-modal ${quickViewOpen ? 'active' : ''}`}>
+            <div className="modal-content">
+              <button className="modal-close" onClick={closeQuickView}>×</button>
+
+              <div className="modal-body">
+                {/* Product Gallery */}
+                <div className="product-gallery">
+                  <div className="main-image">
+                    <img
+                      src={selectedProduct.images ? selectedProduct.images[selectedImageIndex] : selectedProduct.image}
+                      alt={selectedProduct.name}
+                    />
+                  </div>
+                  {selectedProduct.images && (
+                    <div className="thumbnails">
+                      {selectedProduct.images.map((img, i) => (
+                        <div
+                          key={i}
+                          className={`thumbnail ${i === selectedImageIndex ? 'active' : ''}`}
+                          onClick={() => selectImage(i)}
+                        >
+                          <img src={img} alt={`${selectedProduct.name} view ${i + 1}`} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Product Details */}
+                <div className="product-details">
+                  <div className="product-header">
+                    <span className="modal-category">{selectedProduct.category}</span>
+                    {selectedProduct.badge && <span className="modal-badge">{selectedProduct.badge}</span>}
+                  </div>
+
+                  <h2 className="modal-product-name">{selectedProduct.name}</h2>
+
+                  <div className="modal-rating">
+                    {[1, 2, 3, 4, 5].map(star => (
+                      <span key={star} className={`star ${star > selectedProduct.rating ? 'empty' : ''}`}>★</span>
+                    ))}
+                    <span className="rating-text">({selectedProduct.rating}.0)</span>
+                  </div>
+
+                  <div className="modal-price">${selectedProduct.price}</div>
+
+                  {/* Product Tabs */}
+                  <div className="product-tabs">
+                    <button
+                      className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
+                      onClick={() => setActiveTab('details')}
+                    >
+                      Details
+                    </button>
+                    <button
+                      className={`tab-btn ${activeTab === 'materials' ? 'active' : ''}`}
+                      onClick={() => setActiveTab('materials')}
+                    >
+                      Materials
+                    </button>
+                    <button
+                      className={`tab-btn ${activeTab === 'shipping' ? 'active' : ''}`}
+                      onClick={() => setActiveTab('shipping')}
+                    >
+                      Shipping
+                    </button>
+                  </div>
+
+                  <div className="tab-content">
+                    {activeTab === 'details' && (
+                      <div className="tab-pane">
+                        <p>{selectedProduct.description || 'Premium fashion piece designed with exceptional attention to detail and quality.'}</p>
+                        {selectedProduct.details && <p className="details-info">{selectedProduct.details}</p>}
+                      </div>
+                    )}
+                    {activeTab === 'materials' && (
+                      <div className="tab-pane">
+                        {selectedProduct.materials ? (
+                          <ul>
+                            {selectedProduct.materials.map((material, i) => (
+                              <li key={i}>{material}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p>Crafted from premium materials selected for quality and sustainability.</p>
+                        )}
+                      </div>
+                    )}
+                    {activeTab === 'shipping' && (
+                      <div className="tab-pane">
+                        <p>Free express shipping on orders over $150. Standard delivery 3-5 business days. International shipping available.</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Add to Cart Section */}
+                  <div className="modal-actions">
+                    <div className="quantity-selector">
+                      <button className="qty-btn">−</button>
+                      <input type="number" defaultValue="1" min="1" max="10" />
+                      <button className="qty-btn">+</button>
+                    </div>
+                    <button className="btn-add-to-cart" onClick={() => { addToCart(selectedProduct); closeQuickView() }}>
+                      Add to Cart - ${selectedProduct.price}
+                    </button>
+                  </div>
+
+                  {/* Related Products */}
+                  {getRelatedProducts(selectedProduct).length > 0 && (
+                    <div className="related-products">
+                      <h3>You might also like</h3>
+                      <div className="related-grid">
+                        {getRelatedProducts(selectedProduct).map(related => (
+                          <div key={related.id} className="related-item" onClick={() => openQuickView(related)}>
+                            <img src={related.image} alt={related.name} />
+                            <div className="related-info">
+                              <h4>{related.name}</h4>
+                              <span>${related.price}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={`quick-view-overlay ${quickViewOpen ? 'active' : ''}`} onClick={closeQuickView}></div>
+        </>
+      )}
+
+      {/* Checkout Demo Modal */}
+      <div className={`checkout-demo-modal ${showCheckoutDemo ? 'active' : ''}`}>
+        <div className="checkout-demo-content">
+          <div className="checkout-icon">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <circle cx="40" cy="40" r="38" stroke="#10b981" strokeWidth="4" strokeLinecap="round" strokeDasharray="0.5 4"/>
+              <path d="M25 40L35 50L55 30" stroke="#10b981" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <h2 className="checkout-title">Thanks for checking out!</h2>
+          <p className="checkout-message">
+            This is a demo portfolio project showcasing React 19 with Vite and modern ecommerce design.
+            No actual orders are processed.
+          </p>
+          <div className="checkout-footer">
+            <p>Created by Jacob Salazar</p>
+            <button className="btn-close-demo" onClick={closeCheckoutDemo}>Got it!</button>
+          </div>
+        </div>
+      </div>
+      <div className={`checkout-demo-overlay ${showCheckoutDemo ? 'active' : ''}`} onClick={closeCheckoutDemo}></div>
     </>
   )
 }

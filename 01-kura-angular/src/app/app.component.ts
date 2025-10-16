@@ -45,6 +45,9 @@ export class AppComponent {
   selectedImageIndex = 0;
   activeTab = 'details';
 
+  // Checkout Demo state
+  showCheckoutDemo = false;
+
   categories: Category[] = [
     {
       name: 'Seating',
@@ -309,5 +312,22 @@ export class AppComponent {
     if (categoryProducts.length > 0) {
       this.openQuickView(categoryProducts[0]);
     }
+  }
+
+  // Checkout Demo Handler
+  handleCheckout(): void {
+    this.showCheckoutDemo = true;
+    this.cartOpen = false;
+    document.body.style.overflow = 'hidden';
+
+    // Auto close after 3 seconds
+    setTimeout(() => {
+      this.closeCheckoutDemo();
+    }, 3000);
+  }
+
+  closeCheckoutDemo(): void {
+    this.showCheckoutDemo = false;
+    document.body.style.overflow = '';
   }
 }
