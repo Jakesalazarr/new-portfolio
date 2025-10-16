@@ -63,7 +63,9 @@
                 <div class="category-info">
                     <h3>{{ category.name }}</h3>
                     <p>{{ category.description }}</p>
-                    <a href="#" class="category-link">Explore →</a>
+                    <a (click)="exploreCategory(category.name); $event.preventDefault()"
+                       href="#"
+                       class="category-link">Explore →</a>
                 </div>
             </div>
         </div>
@@ -91,6 +93,9 @@
                     <img [src]="product.image" [alt]="product.name">
                     <span class="product-badge" *ngIf="product.badge">{{ product.badge }}</span>
                     <div class="product-actions">
+                        <button class="quick-view-btn" (click)="openQuickView(product)">
+                            Quick View
+                        </button>
                         <button class="add-to-cart-btn" (click)="addToCart(product)">
                             Add to Cart
                         </button>
@@ -194,3 +199,103 @@
     </div>
 </div>
 <div class="cart-overlay" [class.active]="cartOpen" (click)="toggleCart()"></div>
+
+<!-- Quick View Modal -->
+<div class="quick-view-modal" [class.active]="quickViewOpen" *ngIf="selectedProduct">
+    <div class="modal-content">
+        <button class="modal-close" (click)="closeQuickView()">×</button>
+
+        <div class="modal-body">
+            <!-- Product Gallery -->
+            <div class="product-gallery">
+                <div class="main-image">
+                    <img [src]="selectedProduct.images ? selectedProduct.images[selectedImageIndex] : selectedProduct.image"
+                         [alt]="selectedProduct.name">
+                </div>
+                <div class="thumbnails" *ngIf="selectedProduct.images">
+                    <div class="thumbnail"
+                         *ngFor="let img of selectedProduct.images; let i = index"
+                         [class.active]="i === selectedImageIndex"
+                         (click)="selectImage(i)">
+                        <img [src]="img" [alt]="selectedProduct.name + ' view ' + (i+1)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="product-details">
+                <div class="product-header">
+                    <span class="modal-category">{{ selectedProduct.category }}</span>
+                    <span class="modal-badge" *ngIf="selectedProduct.badge">{{ selectedProduct.badge }}</span>
+                </div>
+
+                <h2 class="modal-product-name">{{ selectedProduct.name }}</h2>
+
+                <div class="modal-rating">
+                    <span class="star" *ngFor="let star of [1,2,3,4,5]"
+                          [class.empty]="star > selectedProduct.rating">★</span>
+                    <span class="rating-text">({{ selectedProduct.rating }}.0)</span>
+                </div>
+
+                <div class="modal-price">${{ selectedProduct.price }}</div>
+
+                <!-- Product Tabs -->
+                <div class="product-tabs">
+                    <button class="tab-btn"
+                            [class.active]="activeTab === 'details'"
+                            (click)="setActiveTab('details')">Details</button>
+                    <button class="tab-btn"
+                            [class.active]="activeTab === 'materials'"
+                            (click)="setActiveTab('materials')">Materials</button>
+                    <button class="tab-btn"
+                            [class.active]="activeTab === 'dimensions'"
+                            (click)="setActiveTab('dimensions')">Dimensions</button>
+                </div>
+
+                <div class="tab-content">
+                    <div class="tab-pane" *ngIf="activeTab === 'details'">
+                        <p>{{ selectedProduct.description || 'Elegant furniture piece designed with Scandinavian minimalism in mind. Combines functionality with timeless aesthetics.' }}</p>
+                    </div>
+                    <div class="tab-pane" *ngIf="activeTab === 'materials'">
+                        <ul *ngIf="selectedProduct.materials">
+                            <li *ngFor="let material of selectedProduct.materials">{{ material }}</li>
+                        </ul>
+                        <p *ngIf="!selectedProduct.materials">Premium materials selected for durability and sustainability.</p>
+                    </div>
+                    <div class="tab-pane" *ngIf="activeTab === 'dimensions'">
+                        <p>{{ selectedProduct.dimensions || 'Please contact us for detailed dimensions.' }}</p>
+                    </div>
+                </div>
+
+                <!-- Add to Cart Section -->
+                <div class="modal-actions">
+                    <div class="quantity-selector">
+                        <button class="qty-btn">−</button>
+                        <input type="number" value="1" min="1" max="10">
+                        <button class="qty-btn">+</button>
+                    </div>
+                    <button class="btn-add-to-cart" (click)="addToCart(selectedProduct); closeQuickView()">
+                        Add to Cart - ${{ selectedProduct.price }}
+                    </button>
+                </div>
+
+                <!-- Related Products -->
+                <div class="related-products" *ngIf="getRelatedProducts(selectedProduct).length > 0">
+                    <h3>You might also like</h3>
+                    <div class="related-grid">
+                        <div class="related-item"
+                             *ngFor="let related of getRelatedProducts(selectedProduct)"
+                             (click)="openQuickView(related)">
+                            <img [src]="related.image" [alt]="related.name">
+                            <div class="related-info">
+                                <h4>{{ related.name }}</h4>
+                                <span>${{ related.price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="quick-view-overlay" [class.active]="quickViewOpen" (click)="closeQuickView()"></div>

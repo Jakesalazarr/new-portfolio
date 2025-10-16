@@ -12,6 +12,10 @@ interface Product {
   image: string;
   filter: string[];
   quantity?: number;
+  description?: string;
+  materials?: string[];
+  dimensions?: string;
+  images?: string[];
 }
 
 interface Category {
@@ -34,6 +38,12 @@ export class AppComponent {
   cart: Product[] = [];
   currentFilter = 'all';
   filters = ['all', 'new', 'sale', 'popular'];
+
+  // Quick View Modal states
+  quickViewOpen = false;
+  selectedProduct: Product | null = null;
+  selectedImageIndex = 0;
+  activeTab = 'details';
 
   categories: Category[] = [
     {
@@ -67,7 +77,15 @@ export class AppComponent {
       rating: 5,
       badge: 'new',
       image: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=400&h=500&fit=crop',
-      filter: ['all', 'new', 'popular']
+      filter: ['all', 'new', 'popular'],
+      description: 'Crafted from solid oak with a minimalist design that combines comfort with timeless Scandinavian aesthetics. Perfect for dining rooms or as an accent piece.',
+      materials: ['Solid Oak Wood', 'Natural Oil Finish', 'Steel Reinforcements'],
+      dimensions: 'W: 18" × D: 20" × H: 32"',
+      images: [
+        'https://images.unsplash.com/photo-1503602642458-232111445657?w=600&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1549497538-303791108f95?w=600&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=600&h=600&fit=crop'
+      ]
     },
     {
       id: 2,
@@ -76,7 +94,15 @@ export class AppComponent {
       price: 899,
       rating: 5,
       image: 'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=400&h=500&fit=crop',
-      filter: ['all', 'popular']
+      filter: ['all', 'popular'],
+      description: 'Spacious dining table featuring clean lines and a natural wood finish. Seats up to 6 people comfortably, ideal for family gatherings.',
+      materials: ['Solid Pine Wood', 'Water-based Lacquer', 'Metal Brackets'],
+      dimensions: 'W: 72" × D: 36" × H: 30"',
+      images: [
+        'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1550226891-ef816aed4a98?w=600&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1617806118233-18e1de247200?w=600&h=600&fit=crop'
+      ]
     },
     {
       id: 3,
@@ -242,5 +268,46 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.loadCart();
+  }
+
+  // Quick View Modal Methods
+  openQuickView(product: Product): void {
+    this.selectedProduct = product;
+    this.selectedImageIndex = 0;
+    this.activeTab = 'details';
+    this.quickViewOpen = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeQuickView(): void {
+    this.quickViewOpen = false;
+    this.selectedProduct = null;
+    document.body.style.overflow = '';
+  }
+
+  selectImage(index: number): void {
+    this.selectedImageIndex = index;
+  }
+
+  setActiveTab(tab: string): void {
+    this.activeTab = tab;
+  }
+
+  getRelatedProducts(product: Product): Product[] {
+    return this.products
+      .filter(p => p.category === product.category && p.id !== product.id)
+      .slice(0, 3);
+  }
+
+  getProductsByCategory(categoryName: string): Product[] {
+    return this.products.filter(p => p.category === categoryName);
+  }
+
+  // Enhanced category exploration
+  exploreCategory(categoryName: string): void {
+    const categoryProducts = this.getProductsByCategory(categoryName);
+    if (categoryProducts.length > 0) {
+      this.openQuickView(categoryProducts[0]);
+    }
   }
 }

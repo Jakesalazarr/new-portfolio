@@ -948,3 +948,474 @@
     width: 100%;
   }
 }
+
+/* ==========================================
+   QUICK VIEW MODAL - Premium Experience
+   ========================================== */
+
+.quick-view-btn {
+  padding: 0.75rem 1.5rem;
+  background: white;
+  color: #1e293b;
+  border: 2px solid #8B7355;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 0.5rem;
+
+  &:hover {
+    background: #8B7355;
+    color: white;
+    transform: scale(1.05);
+  }
+}
+
+.quick-view-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  padding: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+
+    .modal-content {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+.modal-content {
+  background: white;
+  border-radius: 24px;
+  max-width: 1200px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+  box-shadow: 0 25px 100px rgba(0, 0, 0, 0.3);
+  transform: scale(0.9) translateY(30px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: #64748b;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background: #1e293b;
+    color: white;
+    transform: rotate(90deg);
+  }
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  min-height: 600px;
+}
+
+.product-gallery {
+  padding: 3rem;
+  background: #fafaf9;
+  border-radius: 24px 0 0 24px;
+}
+
+.main-image {
+  width: 100%;
+  height: 450px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+}
+
+.thumbnails {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  &.active {
+    border-color: #8B7355;
+    box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.2);
+  }
+}
+
+.product-details {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal-category {
+  font-size: 0.8125rem;
+  color: #8B7355;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+
+.modal-badge {
+  padding: 0.4rem 1rem;
+  background: #10b981;
+  color: white;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modal-product-name {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 2.5rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.modal-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+
+  .star {
+    color: #fbbf24;
+    font-size: 1.125rem;
+
+    &.empty {
+      color: #e2e8f0;
+    }
+  }
+
+  .rating-text {
+    color: #64748b;
+    font-size: 0.9375rem;
+    margin-left: 0.5rem;
+  }
+}
+
+.modal-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #8B7355;
+  margin-bottom: 2rem;
+}
+
+.product-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.tab-btn {
+  padding: 1rem 1.5rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #1e293b;
+  }
+
+  &.active {
+    color: #8B7355;
+    border-bottom-color: #8B7355;
+  }
+}
+
+.tab-content {
+  margin-bottom: 2rem;
+}
+
+.tab-pane {
+  animation: fadeIn 0.4s ease;
+
+  p {
+    color: #64748b;
+    line-height: 1.8;
+    font-size: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      color: #64748b;
+      display: flex;
+      align-items: center;
+
+      &::before {
+        content: '✓';
+        color: #8B7355;
+        margin-right: 1rem;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  align-items: center;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+
+  input {
+    width: 60px;
+    text-align: center;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.75rem 0;
+  }
+
+  .qty-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafaf9;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #64748b;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #8B7355;
+      color: white;
+    }
+  }
+}
+
+.btn-add-to-cart {
+  flex: 1;
+  padding: 1rem 2rem;
+  background: #8B7355;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(139, 115, 85, 0.3);
+
+  &:hover {
+    background: #76604a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(139, 115, 85, 0.4);
+  }
+}
+
+.related-products {
+  h3 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.5rem;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.related-item {
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+  }
+
+  .related-info {
+    padding: 0.75rem;
+    background: white;
+
+    h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 0.25rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    span {
+      color: #8B7355;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.quick-view-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  backdrop-filter: blur(4px);
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+// Mobile Responsive for Modal
+@media (max-width: 1024px) {
+  .modal-body {
+    grid-template-columns: 1fr;
+  }
+
+  .product-gallery {
+    border-radius: 24px 24px 0 0;
+  }
+
+  .main-image {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    border-radius: 16px;
+    margin: 1rem;
+  }
+
+  .modal-product-name {
+    font-size: 1.75rem;
+  }
+
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .quantity-selector {
+    width: 100%;
+    justify-content: center;
+  }
+}
