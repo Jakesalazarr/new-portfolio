@@ -856,6 +856,11 @@ a, button, .project-card, .btn {
    ========================================== */
 
 @media (max-width: 768px) {
+    /* Hide "Available for Work" badge on mobile */
+    .hero-badge {
+        display: none;
+    }
+
     .nav-links {
         display: none;
         position: fixed;
