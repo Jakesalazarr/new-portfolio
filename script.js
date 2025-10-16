@@ -320,6 +320,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Close mobile menu when clicking a nav link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinksContainer.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+        });
+    });
+
     // ==========================================
     // SCROLL ANIMATIONS
     // ==========================================
