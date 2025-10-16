@@ -339,7 +339,7 @@ function App() {
       {/* Navigation */}
       <nav className="navbar">
         <div className="container nav-content">
-          <a href="https://jacobsalazar.pages.dev/" className="back-btn">
+          <a href="https://www.jacob-salazar.com/" className="back-btn">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
               <path d="M15 10H5M5 10L10 5M5 10L10 15" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
