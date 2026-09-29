@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Jacob Salazar</title>
-    <meta name="description" content="Jacob Salazar is Chief AI Engineer at Wamivo and a full-stack engineer who has spent ten years shipping web products from Manila for teams in the US, Australia and Singapore.">
+    <meta name="description" content="Jacob Salazar is Chief AI Engineer at Wamivo and a full-stack developer who has spent ten years shipping web products from Manila for teams in Los Angeles, Australia and Singapore.">
     <meta property="og:title" content="Jacob Salazar">
-    <meta property="og:description" content="Chief AI Engineer at Wamivo. Full-stack engineer, ten years of shipping web products.">
+    <meta property="og:description" content="Chief AI Engineer at Wamivo. Full-stack developer, ten years in.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.jacob-salazar.com/">
-    <meta name="theme-color" content="#e8ebe8" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1b201e" media="(prefers-color-scheme: dark)">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23c8381f'/%3E%3C/svg%3E">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@500..600&family=Funnel+Sans:wght@400..500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#f3f0e4">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='8' y='8' width='16' height='16' fill='%23c8381f'/%3E%3C/svg%3E">
+    <link rel="preload" href="assets/fonts/archivo-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/fragment-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <script src="time.js"></script>
+    <script>JSTime.boot(document.documentElement);</script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -28,55 +28,104 @@
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
         </nav>
-        <p class="masthead-meta mono">Manila, PH · GMT+8</p>
+        <button class="rec mono" type="button" id="rec" aria-pressed="false" title="Pause the page clock">
+            <span class="rec-square" aria-hidden="true"></span>
+            <span id="rec-elapsed">00:00:00</span>
+        </button>
     </header>
+
+    <div class="strip" id="strip">
+        <div class="strip-inner">
+            <div class="strip-grid">
+                <div class="strip-lanes">
+                    <p class="strip-label label">One day in Manila time, for the three cities I have worked with</p>
+                    <div class="lanes" id="lanes">
+                        <div class="lane" data-city="mnl">
+                            <button class="lane-name mono" type="button" data-city="mnl">Manila</button>
+                            <div class="lane-track"><span class="band band--day"></span><span class="band band--day band--wrap"></span><span class="band band--work"></span><span class="band band--work band--wrap"></span></div>
+                            <span class="lane-time mono" data-tz="Asia/Manila" data-city="mnl">--:--</span>
+                        </div>
+                        <div class="lane" data-city="lax">
+                            <button class="lane-name mono" type="button" data-city="lax">Los Angeles</button>
+                            <div class="lane-track"><span class="band band--day"></span><span class="band band--day band--wrap"></span><span class="band band--work"></span><span class="band band--work band--wrap"></span></div>
+                            <span class="lane-time mono" data-tz="America/Los_Angeles" data-city="lax">--:--</span>
+                        </div>
+                        <div class="lane" data-city="syd">
+                            <button class="lane-name mono" type="button" data-city="syd">Sydney</button>
+                            <div class="lane-track"><span class="band band--day"></span><span class="band band--day band--wrap"></span><span class="band band--work"></span><span class="band band--work band--wrap"></span></div>
+                            <span class="lane-time mono" data-tz="Australia/Sydney" data-city="syd">--:--</span>
+                        </div>
+                        <div class="lane-hours mono" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+                        <div class="playhead" id="playhead-line" aria-hidden="true"><span class="playhead-label mono">--:--</span></div>
+                        <input class="playhead-input" type="range" id="playhead" min="0" max="1439" step="1" value="0" aria-label="Preview the page at another Manila time" aria-valuetext="--:--">
+                    </div>
+                    <p class="pin-note mono" id="pin-note" hidden><span id="pin-text">pinned</span>, <a href="./" id="pin-clear">back to now</a></p>
+                </div>
+                <div class="strip-clocks" id="clocks" aria-label="Local time now">
+                    <div class="clock" data-city="mnl">
+                        <span class="clock-city"><span class="clock-name">Manila</span><span class="clock-code mono">MNL</span><span class="clock-sun mono"></span></span>
+                        <time class="clock-time mono" data-tz="Asia/Manila" data-city="mnl" data-clock>--:--</time>
+                        <span class="sr-only clock-state"></span>
+                    </div>
+                    <div class="clock" data-city="lax">
+                        <span class="clock-city"><span class="clock-name">Los Angeles</span><span class="clock-code mono">LAX</span><span class="clock-sun mono"></span></span>
+                        <time class="clock-time mono" data-tz="America/Los_Angeles" data-city="lax" data-clock>--:--</time>
+                        <span class="sr-only clock-state"></span>
+                    </div>
+                    <div class="clock" data-city="syd">
+                        <span class="clock-city"><span class="clock-name">Sydney</span><span class="clock-code mono">SYD</span><span class="clock-sun mono"></span></span>
+                        <time class="clock-time mono" data-tz="Australia/Sydney" data-city="syd" data-clock>--:--</time>
+                        <span class="sr-only clock-state"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main id="main">
         <section class="hero" id="top" aria-labelledby="hero-title">
-            <p class="now mono"><span class="rec" aria-hidden="true"></span><span>Now: Chief AI Engineer at <a href="https://wamivo.com/" target="_blank" rel="noopener">Wamivo</a>, since November 2025</span></p>
-            <h1 id="hero-title">Full-stack developer, ten years in. Currently building a screen recorder and its AI.</h1>
-            <div class="hero-body">
+            <div class="hero-text">
+                <p class="now mono">Now: Chief AI Engineer at <a href="https://wamivo.com/" target="_blank" rel="noopener">Wamivo</a>, since November 2025</p>
+                <h1 id="hero-title">Full-stack developer, ten years in. Currently building a screen recorder and its AI.</h1>
                 <p class="lede">At Wamivo I built the Chrome extension, the web app and the backend, and now I handle the AI side, integrating Claude, OpenAI, MCP servers and Ollama into product features. Before that, from 2020 to 2025, I wrote React, Python and Node for teams in Singapore, Australia and Los Angeles.</p>
-                <p class="hero-links"><a href="mailto:salazarjake44@gmail.com">salazarjake44@gmail.com</a></p>
+                <p class="sentence mono" id="sentence">&nbsp;</p>
+                <p class="hero-links"><a class="mono" href="mailto:salazarjake44@gmail.com">salazarjake44@gmail.com</a></p>
             </div>
-            <aside class="clocks" aria-label="Local time for the teams I have worked with">
-                <p class="label">Local time</p>
-                <dl class="clock-list mono">
-                    <div><dt>Manila</dt><dd><time data-tz="Asia/Manila">--:--</time><span class="sr-only clock-state"></span></dd></div>
-                    <div><dt>Los Angeles</dt><dd><time data-tz="America/Los_Angeles">--:--</time><span class="sr-only clock-state"></span></dd></div>
-                    <div><dt>Sydney</dt><dd><time data-tz="Australia/Sydney">--:--</time><span class="sr-only clock-state"></span></dd></div>
-                </dl>
-                <p class="clock-note">Dimmed cities are outside 08:00 to 19:00 local time. I work from Manila and kept US Pacific hours from 2023 to 2025.</p>
-            </aside>
         </section>
 
         <section class="section" id="work" aria-labelledby="work-title">
             <div class="rail">
                 <h2 class="label" id="work-title">Selected work</h2>
-                <p class="rail-note">Two products, four demos. Each opens the live site.</p>
+                <p class="rail-note">Two products, four demos. Each frame is a capture of the live site and opens it.</p>
             </div>
             <div class="content">
                 <h3 class="group-title">Products</h3>
                 <ul class="work-list work-list--large">
-                    <li class="work">
-                        <figure>
-                            <img src="assets/work/wamivo.webp" width="1200" height="750" alt="Wamivo home page" loading="lazy">
+                    <li class="work" data-host="wamivo.com">
+                        <figure class="frame">
+                            <div class="frame-visual">
+                                <div class="frame-chrome mono"><span class="frame-host">wamivo.com</span><span class="frame-right"><span class="frame-tc">00:00:00</span><span class="frame-rec" aria-hidden="true"></span></span></div>
+                                <div class="frame-screen"><img src="assets/work/wamivo.webp" width="1200" height="750" alt="Wamivo home page" loading="eager" fetchpriority="high"></div>
+                                <div class="frame-scrub" aria-hidden="true"><span></span></div>
+                            </div>
                             <figcaption>
-                                <a class="work-title" href="https://wamivo.com/" target="_blank" rel="noopener">Wamivo<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-titleline"><a class="work-title" href="https://wamivo.com/" target="_blank" rel="noopener">Wamivo<span class="sr-only"> (opens in a new tab)</span></a><span class="work-host mono" aria-hidden="true">wamivo.com</span></span>
                                 <span class="work-desc">Screen-recording Chrome extension and web app for async video messages. Unlimited free recordings, subscriptions through Paddle. Built and run by me.</span>
                                 <span class="work-meta mono">2025 to now · Chrome MV3, Next.js, Cloudflare Workers, D1, R2, Supabase, Paddle</span>
-                                <span class="work-host mono">wamivo.com</span>
                             </figcaption>
                         </figure>
                     </li>
-                    <li class="work">
-                        <figure>
-                            <img src="assets/work/tinyverse.webp" width="1200" height="750" alt="Hidden Tiny Verse home page" loading="lazy">
+                    <li class="work" data-host="hiddentinyverse.com" data-lens>
+                        <figure class="frame">
+                            <div class="frame-visual">
+                                <div class="frame-chrome mono"><span class="frame-host">hiddentinyverse.com</span><span class="frame-right"><span class="frame-tc" data-idle="find the tiny">00:00:00</span><span class="frame-rec" aria-hidden="true"></span></span></div>
+                                <div class="frame-screen"><img src="assets/work/tinyverse.webp" width="1200" height="750" alt="Hidden Tiny Verse home page" loading="lazy"></div>
+                                <div class="frame-scrub" aria-hidden="true"><span></span></div>
+                            </div>
                             <figcaption>
-                                <a class="work-title" href="https://hiddentinyverse.com/" target="_blank" rel="noopener">Hidden Tiny Verse<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-titleline"><a class="work-title" href="https://hiddentinyverse.com/" target="_blank" rel="noopener">Hidden Tiny Verse<span class="sr-only"> (opens in a new tab)</span></a><span class="work-host mono" aria-hidden="true">hiddentinyverse.com</span></span>
                                 <span class="work-desc">Tinyverse, a hidden-object puzzle game for iOS with hand-drawn watercolor art. Side project.</span>
                                 <span class="work-meta mono">2025 to now · Swift, SpriteKit</span>
-                                <span class="work-host mono">hiddentinyverse.com</span>
                             </figcaption>
                         </figure>
                     </li>
@@ -84,47 +133,59 @@
 
                 <h3 class="group-title group-title--later">Demos</h3>
                 <ul class="work-list work-list--small">
-                    <li class="work">
-                        <figure>
-                            <img src="assets/work/kura.webp" width="1200" height="750" alt="Kura Furniture Store home page" loading="lazy">
+                    <li class="work" data-host="kura-furniture.pages.dev">
+                        <figure class="frame">
+                            <div class="frame-visual">
+                                <div class="frame-chrome mono"><span class="frame-host">kura-furniture.pages.dev</span><span class="frame-right"><span class="frame-tc">00:00:00</span><span class="frame-rec" aria-hidden="true"></span></span></div>
+                                <div class="frame-screen"><img src="assets/work/kura.webp" width="1200" height="750" alt="Kura Furniture Store home page" loading="lazy"></div>
+                                <div class="frame-scrub" aria-hidden="true"><span></span></div>
+                            </div>
                             <figcaption>
-                                <a class="work-title" href="https://kura-furniture.pages.dev/" target="_blank" rel="noopener">Kura Furniture Store<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-titleline"><a class="work-title" href="https://kura-furniture.pages.dev/" target="_blank" rel="noopener">Kura Furniture Store<span class="sr-only"> (opens in a new tab)</span></a><span class="work-host mono" aria-hidden="true">kura-furniture.pages.dev</span></span>
                                 <span class="work-desc">Scandinavian furniture shop with a catalog, filtering, quick-view modal and a cart kept in LocalStorage.</span>
                                 <span class="work-meta mono">Angular 17, TypeScript, SCSS</span>
-                                <span class="work-host mono">kura-furniture.pages.dev</span>
                             </figcaption>
                         </figure>
                     </li>
-                    <li class="work">
-                        <figure>
-                            <img src="assets/work/vault.webp" width="1200" height="750" alt="Jake&rsquo;s Vault home page" loading="lazy">
+                    <li class="work" data-host="jakesvault.pages.dev">
+                        <figure class="frame">
+                            <div class="frame-visual">
+                                <div class="frame-chrome mono"><span class="frame-host">jakesvault.pages.dev</span><span class="frame-right"><span class="frame-tc">00:00:00</span><span class="frame-rec" aria-hidden="true"></span></span></div>
+                                <div class="frame-screen"><img src="assets/work/vault.webp" width="1200" height="750" alt="Jake&rsquo;s Vault home page" loading="lazy"></div>
+                                <div class="frame-scrub" aria-hidden="true"><span></span></div>
+                            </div>
                             <figcaption>
-                                <a class="work-title" href="https://jakesvault.pages.dev/" target="_blank" rel="noopener">Jake&rsquo;s Vault<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-titleline"><a class="work-title" href="https://jakesvault.pages.dev/" target="_blank" rel="noopener">Jake&rsquo;s Vault<span class="sr-only"> (opens in a new tab)</span></a><span class="work-host mono" aria-hidden="true">jakesvault.pages.dev</span></span>
                                 <span class="work-desc">Black-and-white luxury fashion boutique with product filters, a cart and a checkout demo.</span>
                                 <span class="work-meta mono">React 19, Vite</span>
-                                <span class="work-host mono">jakesvault.pages.dev</span>
                             </figcaption>
                         </figure>
                     </li>
-                    <li class="work">
-                        <figure>
-                            <img src="assets/work/chatai.webp" width="1200" height="750" alt="ChatAI chat screen" loading="lazy">
+                    <li class="work" data-host="querydesk.pages.dev">
+                        <figure class="frame">
+                            <div class="frame-visual">
+                                <div class="frame-chrome mono"><span class="frame-host">querydesk.pages.dev</span><span class="frame-right"><span class="frame-tc">00:00:00</span><span class="frame-rec" aria-hidden="true"></span></span></div>
+                                <div class="frame-screen"><img src="assets/work/chatai.webp" width="1200" height="750" alt="ChatAI chat screen" loading="lazy"></div>
+                                <div class="frame-scrub" aria-hidden="true"><span></span></div>
+                            </div>
                             <figcaption>
-                                <a class="work-title" href="https://querydesk.pages.dev/" target="_blank" rel="noopener">ChatAI<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-titleline"><a class="work-title" href="https://querydesk.pages.dev/" target="_blank" rel="noopener">ChatAI<span class="sr-only"> (opens in a new tab)</span></a><span class="work-host mono" aria-hidden="true">querydesk.pages.dev</span></span>
                                 <span class="work-desc">ChatGPT-style chat interface with mock replies, persistent history and Markdown rendering.</span>
                                 <span class="work-meta mono">Vanilla JavaScript, HTML, CSS</span>
-                                <span class="work-host mono">querydesk.pages.dev</span>
                             </figcaption>
                         </figure>
                     </li>
-                    <li class="work">
-                        <figure>
-                            <img src="assets/work/dashboard.webp" width="1200" height="750" alt="Analytics Dashboard overview screen" loading="lazy">
+                    <li class="work" data-host="analytics-crypto-dashboard.pages.dev">
+                        <figure class="frame">
+                            <div class="frame-visual">
+                                <div class="frame-chrome mono"><span class="frame-host">analytics-crypto-dashboard.pages.dev</span><span class="frame-right"><span class="frame-tc">00:00:00</span><span class="frame-rec" aria-hidden="true"></span></span></div>
+                                <div class="frame-screen"><img src="assets/work/dashboard.webp" width="1200" height="750" alt="Analytics Dashboard overview screen" loading="lazy"></div>
+                                <div class="frame-scrub" aria-hidden="true"><span></span></div>
+                            </div>
                             <figcaption>
-                                <a class="work-title" href="https://analytics-crypto-dashboard.pages.dev/" target="_blank" rel="noopener">Analytics Dashboard<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-titleline"><a class="work-title" href="https://analytics-crypto-dashboard.pages.dev/" target="_blank" rel="noopener">Analytics Dashboard<span class="sr-only"> (opens in a new tab)</span></a><span class="work-host mono" aria-hidden="true">analytics-crypto-dashboard.pages.dev</span></span>
                                 <span class="work-desc">Crypto analytics dashboard with live metrics, search and interactive charts.</span>
                                 <span class="work-meta mono">Vanilla JavaScript, Chart.js</span>
-                                <span class="work-host mono">analytics-crypto-dashboard.pages.dev</span>
                             </figcaption>
                         </figure>
                     </li>
@@ -135,10 +196,12 @@
         <section class="section" id="experience" aria-labelledby="exp-title">
             <div class="rail">
                 <h2 class="label" id="exp-title">Experience</h2>
+                <p class="rail-note">Hover a role to see the Manila hours I kept for it.</p>
             </div>
             <div class="content">
+                <div class="years" id="years" aria-hidden="true"></div>
                 <ol class="roles">
-                    <li class="role">
+                    <li class="role" data-role="wamivo" data-city="mnl" data-hours="Manila hours">
                         <p class="role-dates mono"><time datetime="2025-11">Nov 2025</time> to now</p>
                         <div class="role-body">
                             <h3 class="role-title">Chief AI Engineer</h3>
@@ -156,7 +219,7 @@
                             </details>
                         </div>
                     </li>
-                    <li class="role">
+                    <li class="role" data-role="tinyverse" data-city="mnl" data-hours="Manila hours" data-side>
                         <p class="role-dates mono"><time datetime="2025-06">Jun 2025</time> to now</p>
                         <div class="role-body">
                             <h3 class="role-title">Hidden Tiny Verse</h3>
@@ -164,7 +227,7 @@
                             <p class="role-summary">The game engine and core mechanics for Tinyverse in Swift and SpriteKit, covering scene management, animations and touch interaction.</p>
                         </div>
                     </li>
-                    <li class="role">
+                    <li class="role" data-role="socialscale" data-city="lax" data-hours="US Pacific hours, from Manila">
                         <p class="role-dates mono"><time datetime="2023-01">Jan 2023</time> to <time datetime="2025-06">Jun 2025</time></p>
                         <div class="role-body">
                             <h3 class="role-title">Senior Full Stack Developer</h3>
@@ -182,7 +245,7 @@
                             </details>
                         </div>
                     </li>
-                    <li class="role">
+                    <li class="role" data-role="aureas" data-city="sin" data-hours="Singapore hours, same as Manila">
                         <p class="role-dates mono"><time datetime="2020-03">Mar 2020</time> to <time datetime="2022-12">Dec 2022</time></p>
                         <div class="role-body">
                             <h3 class="role-title">Senior Full Stack Developer</h3>
@@ -200,7 +263,7 @@
                             </details>
                         </div>
                     </li>
-                    <li class="role">
+                    <li class="role" data-role="accenture" data-city="mnl" data-hours="Manila hours">
                         <p class="role-dates mono"><time datetime="2019-06">Jun 2019</time> to <time datetime="2020-02">Feb 2020</time></p>
                         <div class="role-body">
                             <h3 class="role-title">Full Stack Developer</h3>
@@ -217,7 +280,7 @@
                             </details>
                         </div>
                     </li>
-                    <li class="role">
+                    <li class="role" data-role="newpromise" data-city="mnl" data-hours="Manila hours">
                         <p class="role-dates mono"><time datetime="2018-09">Sep 2018</time> to <time datetime="2019-01">Jan 2019</time></p>
                         <div class="role-body">
                             <h3 class="role-title">Software Developer</h3>
@@ -267,10 +330,22 @@
             <div class="rail">
                 <h2 class="label" id="about-title">About</h2>
             </div>
-            <div class="content prose">
-                <p>I live in Manila. Since 2020 I&rsquo;ve worked remotely with teams in Singapore, Australia and Los Angeles, so async updates and clear handoffs are how I work.</p>
-                <p>I prefer to own a whole product, from the database schema to the interface. Wamivo is the current example. I architected and shipped it, and I run it on my own.</p>
-                <p>Outside work I run Hidden Tiny Verse Studio, an indie iOS game company, and I&rsquo;m writing its game, Tinyverse, in Swift and SpriteKit. I studied Computer Science at De La Salle University Manila, 2014 to 2018.</p>
+            <div class="content about-grid">
+                <div class="prose">
+                    <p>I live in Manila. Since 2020 I&rsquo;ve worked remotely with teams in Singapore, Australia and Los Angeles, so async updates and clear handoffs are how I work.</p>
+                    <p>I prefer to own a whole product, from the database schema to the interface. Wamivo is the current example. I architected and shipped it, and I run it on my own.</p>
+                    <p>Outside work I run Hidden Tiny Verse Studio, an indie iOS game company, and I&rsquo;m writing its game, Tinyverse, in Swift and SpriteKit. I studied Computer Science at De La Salle University Manila, 2014 to 2018.</p>
+                </div>
+                <div class="arc" id="arc">
+                    <p class="label">The sun over Manila today</p>
+                    <svg class="arc-svg" viewBox="0 0 320 120" aria-hidden="true" focusable="false">
+                        <path class="arc-horizon" d="M 8 100 H 312"></path>
+                        <path class="arc-path" id="arc-path" d="M 16 100 Q 160 -44 304 100"></path>
+                        <circle class="arc-sun" id="arc-sun" r="5" cx="16" cy="100"></circle>
+                    </svg>
+                    <div class="arc-labels mono"><span><span class="arc-k">rise</span> <span id="arc-rise">--:--</span></span><span><span class="arc-k">noon</span> <span id="arc-noon">--:--</span></span><span><span class="arc-k">set</span> <span id="arc-set">--:--</span></span></div>
+                    <p class="arc-tip mono" id="arc-tip">&nbsp;</p>
+                </div>
             </div>
         </section>
 
@@ -280,6 +355,7 @@
             </div>
             <div class="content">
                 <a class="email" href="mailto:salazarjake44@gmail.com">salazarjake44@gmail.com</a>
+                <p class="visitor mono" id="visitor">&nbsp;</p>
                 <ul class="contact-links mono">
                     <li><a href="https://www.linkedin.com/in/jacob-salazar/" target="_blank" rel="noopener">LinkedIn</a><span>linkedin.com/in/jacob-salazar</span></li>
                     <li><a href="https://github.com/Jake-salazar" target="_blank" rel="noopener">GitHub</a><span>github.com/Jake-salazar</span></li>
@@ -292,12 +368,19 @@
     <footer class="colophon">
         <p class="label">Colophon</p>
         <div>
-            <p>Set in Funnel Display, Funnel Sans and IBM Plex Mono. Hand-written HTML and CSS with one small script for the clocks and for printing; no framework, no tracking. Hosted on Cloudflare Pages.</p>
+            <p>Set in Archivo and Fragment Mono, served from this site. The sky, the sunrise and sunset times are computed in your browser from the NOAA solar equations; nothing is fetched and nothing about you is stored or sent. Hand-written HTML, CSS and JavaScript, with GSAP for the scroll work, hosted on Cloudflare Pages.</p>
+            <p class="mono" id="edge" hidden></p>
             <p class="mono">Last updated September 2026</p>
             <p class="mono">&copy; 2026 Jacob Israel R. Salazar</p>
         </div>
     </footer>
 
-    <script src="script.js" defer></script>
+    <div class="lens" id="lens" aria-hidden="true"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

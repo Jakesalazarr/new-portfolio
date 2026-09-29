@@ -1,32 +1,66 @@
 /* ==========================================================================
-   Jacob Salazar — jacob-salazar.com
-   Layout concept: an index. A narrow rail on the left carries each section's
-   label and a short note in the mono face; the wide column carries the work.
-   Grey body, one red indicator (the record light), like a well-made instrument.
+   Jacob Salazar — jacob-salazar.com — "Overlap"
+   Layout concept: a page lit by the sun over Manila at the minute it is opened,
+   with one full-bleed time strip that runs the day for the three cities he has
+   worked with. The rail-and-content index stays underneath; the strip, the sky
+   and the capture frames carry the motion.
+   Colour is computed by time.js and written onto :root as tokens: --bg and --ink
+   follow the sun, --red is the record red, --day is daylight on the strip.
+   The values below are only the no-script defaults (Manila at noon).
    ========================================================================== */
 
+@font-face {
+    font-family: "Archivo";
+    src: url("assets/fonts/archivo-variable-latin.woff2") format("woff2");
+    font-weight: 100 900;
+    font-stretch: 62% 125%;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Fragment Mono";
+    src: url("assets/fonts/fragment-mono-latin.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Archivo Fallback";
+    src: local("Arial"), local("Helvetica Neue"), local("Helvetica");
+    size-adjust: 97%;
+    ascent-override: 92%;
+    descent-override: 22%;
+    line-gap-override: 0%;
+}
+
+@font-face {
+    font-family: "Fragment Mono Fallback";
+    src: local("Consolas"), local("Menlo"), local("Courier New");
+    size-adjust: 96%;
+}
+
 :root {
-    color-scheme: light;
+    --bg: #f3f0e4;
+    --bg-2: #e6e3d7;
+    --ink: #1c1d1c;
+    --ink-2: #565854;
+    --line: #ccc9bf;
+    --red: #c8381f;
+    --day: #f0d46a;
 
-    --bg: #e8ebe8;
-    --bg-2: #dde1dd;
-    --ink: #17201c;
-    --ink-2: #4f5a55;
-    --line: #c4cbc6;
-    --accent: #c8381f;
-    --accent-ink: #a52c17;
-    --selection: color-mix(in srgb, var(--accent) 28%, var(--bg));
-    --frame: var(--line);
-    --img-dim: 1;
+    --dock: 0;
+    --ph: 0.6;
+    --t: 0.3s;
 
-    --font-display: "Funnel Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --font-text: "Funnel Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+    --font-text: "Archivo", "Archivo Fallback", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-mono: "Fragment Mono", "Fragment Mono Fallback", ui-monospace, "Cascadia Mono", Consolas, monospace;
 
     --measure: 62ch;
     --page: 1280px;
-    --gutter: clamp(20px, 4vw, 56px);
+    --gutter: clamp(20px, 4vw, 48px);
     --rail: 220px;
+    --strip-h: 132px;
+    --bar-h: 40px;
 
     --s1: 4px;
     --s2: 8px;
@@ -40,34 +74,8 @@
     --s10: 128px;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-        color-scheme: dark;
-        --bg: #1b201e;
-        --bg-2: #242a27;
-        --ink: #e6eae7;
-        --ink-2: #9ea8a3;
-        --line: #3d4642;
-        --accent: #f5563f;
-        --accent-ink: #ff6f55;
-        --selection: color-mix(in srgb, var(--accent) 30%, var(--bg));
-        --frame: #434c47;
-        --img-dim: 0.9;
-    }
-}
-
-:root[data-theme="dark"] {
-    color-scheme: dark;
-    --bg: #1b201e;
-    --bg-2: #242a27;
-    --ink: #e6eae7;
-    --ink-2: #9ea8a3;
-    --line: #3d4642;
-    --accent: #f5563f;
-    --accent-ink: #ff6f55;
-    --selection: color-mix(in srgb, var(--accent) 30%, var(--bg));
-    --frame: #434c47;
-    --img-dim: 0.9;
+html.is-scrubbing {
+    --t: 0s;
 }
 
 /* --------------------------------------------------------------------------
@@ -82,12 +90,7 @@
 
 html {
     -webkit-text-size-adjust: 100%;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    html {
-        scroll-behavior: smooth;
-    }
+    background: var(--bg);
 }
 
 body {
@@ -97,39 +100,49 @@ body {
     color: var(--ink);
     font-family: var(--font-text);
     font-size: 1.0625rem;
-    line-height: 1.55;
+    font-weight: 400;
+    line-height: 1.5;
     font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;
+    transition: background-color var(--t) ease, color var(--t) ease;
 }
 
 ::selection {
-    background: var(--selection);
-    color: var(--ink);
+    background: var(--red);
+    color: #fff;
 }
 
 a {
     color: inherit;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.18em;
-    text-decoration-color: color-mix(in srgb, var(--ink) 55%, transparent);
+    text-decoration-color: color-mix(in srgb, var(--ink) 40%, transparent);
     transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 
 :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--red);
     outline-offset: 3px;
-    border-radius: 2px;
 }
 
 img {
     max-width: 100%;
 }
 
+button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
 .skip {
     position: absolute;
     top: -100px;
     left: var(--gutter);
-    z-index: 10;
+    z-index: 60;
     padding: var(--s2) var(--s3);
     background: var(--ink);
     color: var(--bg);
@@ -138,6 +151,18 @@ img {
 
 .skip:focus {
     top: var(--s2);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .mono {
@@ -150,37 +175,8 @@ img {
     margin: 0;
     font-family: var(--font-mono);
     font-size: 0.8125rem;
-    font-weight: 500;
+    font-weight: 400;
     color: var(--ink-2);
-}
-
-.rail .label {
-    color: var(--ink);
-}
-
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    white-space: nowrap;
-    border: 0;
-}
-
-.rail-note,
-.lede,
-.clock-note,
-.work-desc,
-.role-summary,
-.role details li,
-.caps dd,
-.prose p,
-.colophon p {
-    text-wrap: pretty;
 }
 
 /* --------------------------------------------------------------------------
@@ -190,17 +186,18 @@ img {
 .masthead {
     max-width: var(--page);
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: var(--rail) minmax(0, 1fr) auto;
+    display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
-    column-gap: var(--s9);
+    gap: var(--s3) var(--s6);
     padding-block: var(--s5);
 }
 
 .wordmark {
-    font-family: var(--font-display);
+    margin-right: auto;
     font-size: 1.25rem;
     font-weight: 600;
+    font-stretch: 96%;
     letter-spacing: -0.01em;
     text-decoration: none;
 }
@@ -212,36 +209,336 @@ img {
 }
 
 .masthead nav a {
-    display: inline-block;
     padding-block: var(--s2);
     margin-block: calc(-1 * var(--s2));
     text-decoration: none;
+    font-stretch: 100%;
+    transition: font-stretch 0.2s ease;
 }
 
-.masthead-meta {
-    margin: 0;
+.rec {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
+    padding: var(--s2) 0;
+    margin-block: calc(-1 * var(--s2));
     color: var(--ink-2);
 }
 
-@media (max-width: 960px) {
-    .masthead {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--s3) var(--s4);
-    }
+.rec-square {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--red);
+}
 
-    .wordmark {
-        margin-right: auto;
-    }
+.rec[aria-pressed="true"] .rec-square {
+    background: var(--ink-2);
+}
 
-    .masthead-meta {
-        order: 2;
-    }
+/* --------------------------------------------------------------------------
+   The time strip: one element, two states, morphed by --dock (0 in the hero,
+   1 once docked). Heights and sizes are interpolated with calc so the strip
+   shrinks continuously under the scroll; the layout swap for the clocks is a
+   single class at the midpoint.
+   -------------------------------------------------------------------------- */
 
-    .masthead nav {
-        order: 3;
-        flex-basis: 100%;
-    }
+.strip {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    height: var(--strip-h);
+    margin-inline: calc(-1 * var(--gutter));
+    pointer-events: none;
+}
+
+.strip-inner {
+    position: relative;
+    height: calc(var(--strip-h) - (var(--strip-h) - var(--bar-h)) * var(--dock));
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    pointer-events: auto;
+    transition: background-color var(--t) ease, border-color var(--t) ease;
+}
+
+.strip-grid {
+    max-width: var(--page);
+    height: 100%;
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--s6);
+}
+
+.strip-lanes {
+    min-width: 0;
+    --name-w: calc(104px * (1 - var(--dock)));
+    --time-w: calc(44px * (1 - var(--dock)));
+    --lane-gap: 12px;
+    --hours-h: calc(16px * (1 - var(--dock)));
+}
+
+.strip-label {
+    height: calc(18px * (1 - var(--dock)));
+    margin: 0 0 calc(4px * (1 - var(--dock)));
+    overflow: hidden;
+    opacity: calc(1 - var(--dock) * 4);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.lanes {
+    position: relative;
+    display: grid;
+    gap: calc(6px - 4px * var(--dock));
+}
+
+.lane {
+    display: grid;
+    grid-template-columns: var(--name-w) minmax(0, 1fr) var(--time-w);
+    gap: var(--lane-gap);
+    align-items: center;
+    height: calc(22px - 14px * var(--dock));
+}
+
+.lane-name,
+.lane-time {
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: calc(1 - var(--dock) * 2);
+    color: var(--ink-2);
+    text-align: left;
+    transition: color 0.2s ease;
+}
+
+.lane-time {
+    text-align: right;
+    color: var(--ink);
+}
+
+.lane.is-hot .lane-name {
+    color: var(--ink);
+}
+
+/* Off-hours cities step down to the secondary ink; both inks clear 4.5:1 at every hour. */
+.lane.is-off .lane-time {
+    color: var(--ink-2);
+}
+
+.lane-track {
+    position: relative;
+    height: 100%;
+    background: var(--bg-2);
+    overflow: hidden;
+    transition: background-color var(--t) ease;
+}
+
+.band {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--l, 0%);
+    width: var(--w, 0%);
+}
+
+.band--day {
+    background: var(--day);
+    opacity: 0.9;
+}
+
+.band--work {
+    top: auto;
+    height: 2px;
+    background: var(--ink);
+    opacity: 0.35;
+    transition: opacity 0.2s ease, height 0.2s ease;
+}
+
+.lane.is-hot .band--work,
+.lane.is-echo .band--work {
+    opacity: 0.9;
+    height: 4px;
+}
+
+.lane-hours {
+    display: flex;
+    justify-content: space-between;
+    height: var(--hours-h);
+    margin-left: calc(var(--name-w) + var(--lane-gap));
+    margin-right: calc(var(--time-w) + var(--lane-gap));
+    overflow: hidden;
+    opacity: calc(1 - var(--dock) * 2);
+    font-size: 0.6875rem;
+    color: var(--ink-2);
+    line-height: 16px;
+}
+
+.playhead {
+    position: absolute;
+    top: 0;
+    bottom: var(--hours-h);
+    left: calc(var(--name-w) + var(--lane-gap) + (100% - var(--name-w) - var(--time-w) - 2 * var(--lane-gap)) * var(--ph));
+    width: 2px;
+    margin-left: -1px;
+    background: var(--red);
+    pointer-events: none;
+}
+
+.playhead::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -4px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--red);
+}
+
+.playhead-label {
+    position: absolute;
+    top: -2px;
+    left: 8px;
+    color: var(--red);
+    font-size: 0.6875rem;
+    line-height: 1;
+    opacity: calc(1 - var(--dock) * 2);
+    white-space: nowrap;
+}
+
+.playhead.is-right .playhead-label {
+    left: auto;
+    right: 8px;
+}
+
+.playhead-input {
+    position: absolute;
+    top: 0;
+    bottom: var(--hours-h);
+    left: calc(var(--name-w) + var(--lane-gap));
+    right: calc(var(--time-w) + var(--lane-gap));
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    cursor: col-resize;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+}
+
+.playhead-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 100%;
+}
+
+.playhead-input::-moz-range-thumb {
+    width: 14px;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.playhead-input::-moz-range-track {
+    background: transparent;
+}
+
+.lanes:has(.playhead-input:focus-visible) .playhead {
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
+}
+
+.pin-note {
+    height: calc(18px * (1 - var(--dock)));
+    margin: calc(4px * (1 - var(--dock))) 0 0;
+    overflow: hidden;
+    opacity: calc(1 - var(--dock) * 2);
+    color: var(--ink-2);
+    white-space: nowrap;
+}
+
+.pin-note a {
+    color: var(--ink);
+}
+
+.strip-clocks {
+    display: flex;
+    gap: calc(var(--s7) - 28px * var(--dock));
+    align-items: flex-end;
+}
+
+.clock {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--ink);
+}
+
+.clock-city {
+    display: block;
+    height: calc(18px * (1 - var(--dock)));
+    overflow: hidden;
+    font-size: 0.8125rem;
+    line-height: 18px;
+    color: var(--ink-2);
+    opacity: calc(1 - var(--dock) * 2);
+    white-space: nowrap;
+}
+
+.clock-code,
+.clock-sun {
+    display: none;
+}
+
+.clock.is-hover .clock-name {
+    display: none;
+}
+
+.clock.is-hover .clock-sun {
+    display: inline;
+}
+
+.clock-time {
+    font-size: calc(40px - 26px * var(--dock));
+    line-height: 1;
+    letter-spacing: -0.02em;
+    transition: color 0.2s ease;
+}
+
+.clock.is-off .clock-time {
+    color: var(--ink-2);
+}
+
+.strip.is-docked .clock {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.strip.is-docked .clock-city {
+    height: auto;
+    opacity: 1;
+    line-height: 1;
+}
+
+.strip.is-docked .clock-name,
+.strip.is-docked .clock-sun {
+    display: none;
+}
+
+.strip.is-docked .clock-code {
+    display: inline;
+    font-size: 0.75rem;
+}
+
+.strip.is-docked .clock-time {
+    font-size: 0.875rem;
+    letter-spacing: 0;
 }
 
 /* --------------------------------------------------------------------------
@@ -254,24 +551,14 @@ main {
 }
 
 .hero {
-    display: grid;
-    /* right column = second column of the demo grid, so the clocks share that line */
-    grid-template-columns: minmax(0, 1fr) calc((100% - var(--rail) - var(--s9) - var(--s6)) / 2);
-    grid-template-areas:
-        "now   clocks"
-        "title clocks"
-        "body  clocks";
-    column-gap: var(--s9);
-    align-items: start;
-    padding-block: var(--s8) var(--s9);
-    border-top: 1px solid var(--line);
+    padding-block: var(--s7) var(--s9);
+}
+
+.hero-text {
+    max-width: 62rem;
 }
 
 .now {
-    grid-area: now;
-    display: flex;
-    align-items: flex-start;
-    gap: var(--s3);
     margin: 0 0 var(--s6);
     color: var(--ink-2);
 }
@@ -280,29 +567,15 @@ main {
     color: var(--ink);
 }
 
-.rec {
-    flex: none;
-    margin-top: 0.45em;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-}
-
 .hero h1 {
-    grid-area: title;
-    margin: 0 0 var(--s7);
-    max-width: 22ch;
-    font-family: var(--font-display);
-    font-size: clamp(2.25rem, 3.6vw + 0.8rem, 4.25rem);
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: -0.025em;
+    margin: 0 0 var(--s6);
+    max-width: 20ch;
+    font-size: clamp(2.25rem, 4.6vw + 0.6rem, 4.25rem);
+    font-weight: 500;
+    font-stretch: 90%;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
     text-wrap: balance;
-}
-
-.hero-body {
-    grid-area: body;
 }
 
 .lede {
@@ -310,77 +583,30 @@ main {
     max-width: var(--measure);
     font-size: 1.1875rem;
     line-height: 1.5;
+    text-wrap: pretty;
+}
+
+.sentence {
+    margin: var(--s5) 0 0;
+    max-width: var(--measure);
+    color: var(--ink-2);
+    min-height: 1.4em;
 }
 
 .hero-links {
     margin: var(--s6) 0 0;
-    font-family: var(--font-mono);
-    font-size: 0.9375rem;
-    font-weight: 500;
 }
 
 .hero-links a {
-    text-decoration: none;
-}
-
-.clocks {
-    grid-area: clocks;
-}
-
-.clock-list {
-    display: grid;
-    margin: var(--s4) 0 0;
-    max-width: 320px;
-}
-
-.clock-list > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: var(--s4);
+    display: inline-block;
     padding-block: var(--s2);
-}
-
-.clock-list dt {
+    margin-block: calc(-1 * var(--s2));
     color: var(--ink);
-}
-
-.clock-list dd {
-    margin: 0;
-    font-size: 1.375rem;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -0.01em;
-}
-
-.clock-list dt,
-.clock-list dd {
-    transition: color 0.4s ease;
-}
-
-.clock-list .is-off dt,
-.clock-list .is-off dd {
-    color: var(--ink-2);
-}
-
-.clock-note {
-    margin: var(--s4) 0 0;
-    font-size: 0.9375rem;
-    color: var(--ink-2);
-}
-
-@media (max-width: 900px) {
-    .hero {
-        grid-template-columns: 1fr;
-        grid-template-areas: "now" "title" "body" "clocks";
-        padding-block: var(--s7) var(--s8);
-    }
-
-    .clocks {
-        margin-top: var(--s7);
-        padding-top: var(--s4);
-        border-top: 1px solid var(--line);
-    }
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    background-position: 0 100%;
 }
 
 /* --------------------------------------------------------------------------
@@ -391,19 +617,14 @@ main {
     display: grid;
     grid-template-columns: var(--rail) minmax(0, 1fr);
     gap: var(--s6) var(--s9);
-    align-items: baseline;
     padding-block: var(--s8);
     border-top: 1px solid var(--line);
-    scroll-margin-top: var(--s5);
+    scroll-margin-top: calc(var(--bar-h) + var(--s5));
 }
 
 .rail {
     position: sticky;
-    top: var(--s5);
-    align-self: baseline;
-}
-
-#contact .rail {
+    top: calc(var(--bar-h) + var(--s5));
     align-self: start;
 }
 
@@ -420,33 +641,17 @@ main {
 
 .group-title {
     margin: 0 0 var(--s5);
-    font-family: var(--font-display);
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
     font-weight: 600;
+    font-stretch: 96%;
 }
 
 .group-title--later {
     margin-top: var(--s8);
 }
 
-@media (max-width: 900px) {
-    .section {
-        grid-template-columns: 1fr;
-        gap: var(--s5);
-        padding-block: var(--s7);
-    }
-
-    .rail {
-        position: static;
-    }
-
-    .rail-note {
-        max-width: var(--measure);
-    }
-}
-
 /* --------------------------------------------------------------------------
-   Work
+   Work: capture frames
    -------------------------------------------------------------------------- */
 
 .work-list {
@@ -454,7 +659,7 @@ main {
     margin: 0;
     padding: 0;
     display: grid;
-    gap: var(--s7) var(--s6);
+    gap: var(--s8) var(--s6);
 }
 
 .work-list--large {
@@ -463,57 +668,129 @@ main {
 
 .work-list--small {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s7) var(--s6);
 }
 
 .work {
     position: relative;
 }
 
-.work figure {
+.frame {
     margin: 0;
+    display: grid;
+    gap: var(--s4);
 }
 
-.work-list--large .work figure {
-    display: grid;
+.work-list--large .frame {
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     gap: var(--s6);
     align-items: start;
 }
 
-.work img {
+.frame-visual {
+    min-width: 0;
+}
+
+.frame-chrome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s3);
+    height: 24px;
+    padding: 0 var(--s2);
+    border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
+    border-bottom: 0;
+    color: var(--ink-2);
+    font-size: 0.75rem;
+    line-height: 1;
+    background: var(--bg);
+    transition: background-color var(--t) ease, color var(--t) ease, border-color var(--t) ease;
+}
+
+.frame-host {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.frame-right {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
+    flex: none;
+}
+
+.frame-rec {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--line);
+    transition: background-color 0.15s ease;
+}
+
+.work.is-recording .frame-rec {
+    background: var(--red);
+}
+
+.frame-screen {
+    position: relative;
+    aspect-ratio: 1200 / 750;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
+    background: var(--bg-2);
+}
+
+.frame-screen img {
     display: block;
     width: 100%;
-    height: auto;
-    aspect-ratio: 1200 / 750;
+    height: 100%;
     object-fit: cover;
-    background: var(--bg-2);
-    border: 1px solid var(--frame);
-    border-radius: 3px;
-    filter: brightness(var(--img-dim));
-    transition: border-color 0.2s ease, filter 0.2s ease;
 }
 
-.work figcaption {
+.frame-scrub {
+    height: 2px;
+    margin-top: 2px;
+    background: var(--line);
+}
+
+.frame-scrub span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.frame figcaption {
     display: grid;
-    gap: var(--s1);
-    padding-top: var(--s3);
+    gap: var(--s2);
+    align-content: start;
 }
 
-.work-list--large .work figcaption {
-    padding-top: 0;
+.work-titleline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s3);
 }
 
 .work-title {
-    margin-bottom: var(--s1);
-    color: inherit;
-    text-decoration: none;
-    font-family: var(--font-display);
     font-size: 1.375rem;
     font-weight: 600;
+    font-stretch: 100%;
     line-height: 1.15;
     letter-spacing: -0.01em;
-    text-wrap: balance;
-    transition: color 0.15s ease;
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    transition: font-stretch 0.25s ease, background-size 0.3s ease;
+}
+
+.work-list--large .work-title {
+    font-size: 1.75rem;
 }
 
 /* The title is the link; this stretches it over the whole figure. */
@@ -523,61 +800,190 @@ main {
     inset: 0;
 }
 
-.work-list--large .work-title {
-    font-size: 1.75rem;
+.work-host {
+    color: var(--ink-2);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-/* Keyboard focus lands on the title but is shown on the figure, the same
-   state a pointer gets on hover. Browsers without :has() keep the default ring. */
-@supports selector(:has(a)) {
-    .work-title:focus-visible {
-        outline: none;
-    }
+.work:hover .work-title,
+.work:focus-within .work-title {
+    font-stretch: 112%;
+    background-size: 100% 2px;
+}
 
-    .work:has(.work-title:focus-visible) img {
-        outline: 2px solid var(--accent);
-        outline-offset: 3px;
-        border-color: var(--ink);
-        filter: brightness(1);
-    }
+.work:hover .work-host,
+.work:focus-within .work-host {
+    opacity: 1;
+    transform: none;
+}
 
-    .work:has(.work-title:focus-visible) .work-title {
-        color: var(--accent-ink);
-    }
+.work:hover .frame-screen,
+.work:focus-within .frame-screen {
+    border-color: var(--ink);
 }
 
 .work-desc {
     max-width: 48ch;
+    text-wrap: pretty;
 }
 
 .work-meta {
     color: var(--ink-2);
-    text-wrap: pretty;
-}
-
-.work-host {
-    color: var(--ink-2);
-    overflow-wrap: anywhere;
-}
-
-@media (max-width: 700px) {
-    .work-list--large .work figure,
-    .work-list--small {
-        grid-template-columns: 1fr;
-    }
-
-    .work-list--large .work figcaption {
-        padding-top: var(--s3);
-    }
-
-    .work-list {
-        gap: var(--s6);
-    }
 }
 
 /* --------------------------------------------------------------------------
-   Experience
+   Experience: year axis and the roles table
    -------------------------------------------------------------------------- */
+
+.years {
+    margin: 0 0 var(--s7);
+    padding-bottom: var(--s3);
+}
+
+.years-axis {
+    position: relative;
+    height: 22px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--ink-2);
+}
+
+.year-tick {
+    position: absolute;
+    bottom: 4px;
+    left: var(--x);
+    transform: translateX(-50%);
+}
+
+.year-tick::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 1px;
+    height: 4px;
+    background: var(--line);
+}
+
+.year-tick.is-first {
+    transform: none;
+}
+
+.year-tick.is-first::after {
+    left: 0;
+}
+
+.year-tick.is-last {
+    transform: translateX(-100%);
+}
+
+.year-tick.is-last::after {
+    left: 100%;
+}
+
+.year-row {
+    position: relative;
+    height: 30px;
+    margin-top: var(--s2);
+}
+
+.year-bar {
+    position: absolute;
+    top: 6px;
+    left: var(--l);
+    width: var(--w);
+    height: 12px;
+    background: var(--ink);
+    opacity: 0.72;
+    transform-origin: left center;
+    transition: opacity 0.2s ease;
+}
+
+.year-row[data-side] .year-bar {
+    top: 9px;
+    height: 6px;
+    opacity: 0.45;
+}
+
+.year-bar.is-open::after {
+    content: "";
+    position: absolute;
+    right: -1px;
+    top: -4px;
+    width: 2px;
+    height: 20px;
+    background: var(--red);
+}
+
+.year-row.is-hot .year-bar {
+    opacity: 1;
+}
+
+.year-label {
+    position: absolute;
+    top: 5px;
+    left: calc(var(--l) + var(--w) + 8px);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 14px;
+    color: var(--ink-2);
+    white-space: nowrap;
+}
+
+.year-label--left {
+    left: auto;
+    right: calc(100% - var(--l) + 8px);
+}
+
+.year-hours {
+    position: absolute;
+    top: 22px;
+    left: var(--l);
+    width: var(--w);
+    height: 5px;
+    display: flex;
+    gap: 1px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.year-hours span {
+    flex: 1;
+    background: var(--line);
+}
+
+.year-hours span.on {
+    background: var(--day);
+}
+
+.year-row.is-hot .year-hours {
+    opacity: 1;
+}
+
+.year-hours-label {
+    position: absolute;
+    top: 20px;
+    left: calc(var(--l) + var(--w) + 8px);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1;
+    color: var(--ink-2);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.year-hours-label.year-label--left {
+    left: auto;
+    right: calc(100% - var(--l) + 8px);
+}
+
+.year-row.is-hot .year-hours-label {
+    opacity: 1;
+}
 
 .roles {
     list-style: none;
@@ -587,21 +993,21 @@ main {
 
 .role {
     display: grid;
-    grid-template-columns: var(--rail) minmax(0, 1fr);
-    gap: var(--s3) var(--s9);
-    align-items: baseline;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: var(--s3) var(--s6);
     padding-block: var(--s5);
     border-top: 1px solid var(--line);
 }
 
-.role:first-child {
-    padding-top: 0;
-    border-top: 0;
-}
-
 .role-dates {
     margin: 0;
+    padding-top: 0.4em;
     color: var(--ink-2);
+    transition: color 0.2s ease;
+}
+
+.role.is-hot .role-dates {
+    color: var(--ink);
 }
 
 .role-body {
@@ -611,9 +1017,9 @@ main {
 
 .role-title {
     margin: 0;
-    font-family: var(--font-display);
     font-size: 1.375rem;
     font-weight: 600;
+    font-stretch: 100%;
     line-height: 1.15;
     letter-spacing: -0.01em;
     text-wrap: balance;
@@ -627,6 +1033,7 @@ main {
 .role-summary {
     margin: 0;
     max-width: var(--measure);
+    text-wrap: pretty;
 }
 
 .role details {
@@ -647,7 +1054,7 @@ main {
     color: var(--ink-2);
     text-decoration: underline;
     text-decoration-color: transparent;
-    text-underline-offset: 0.18em;
+    text-underline-offset: 0.2em;
     transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 
@@ -656,19 +1063,23 @@ main {
 }
 
 .role summary::before {
-    content: "+";
-    content: "+" / "";
-    width: 1em;
-    font-weight: 500;
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 6px solid currentColor;
+    transition: transform 0.2s ease;
 }
 
 .role details[open] summary::before {
-    content: "\2013";
-    content: "\2013" / "";
+    transform: rotate(90deg);
 }
 
-.role details[open] summary {
+.role details[open] summary,
+.role summary:hover {
     color: var(--ink);
+    text-decoration-color: currentColor;
 }
 
 .role details ul {
@@ -679,85 +1090,141 @@ main {
     font-size: 1rem;
 }
 
-@media (max-width: 1100px) {
-    .role {
-        grid-template-columns: 1fr;
-        gap: var(--s1);
-    }
-}
-
 /* --------------------------------------------------------------------------
    Capabilities
    -------------------------------------------------------------------------- */
 
 .caps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s6) var(--s7);
     margin: 0;
 }
 
 .caps > div {
     display: grid;
-    grid-template-columns: var(--rail) minmax(0, 1fr);
-    gap: var(--s1) var(--s9);
-    align-items: baseline;
-    padding-block: var(--s4);
+    gap: var(--s2);
+    padding-top: var(--s3);
     border-top: 1px solid var(--line);
 }
 
-.caps > div:first-child {
-    padding-top: 0;
-    border-top: 0;
-}
-
 .caps dt {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    font-weight: 400;
-    color: var(--ink-2);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    font-stretch: 96%;
 }
 
 .caps dd {
     margin: 0;
-    max-width: var(--measure);
     font-size: 1rem;
     line-height: 1.5;
 }
 
-@media (max-width: 1100px) {
-    .caps > div {
-        grid-template-columns: 1fr;
-    }
-}
-
 /* --------------------------------------------------------------------------
-   About, contact, colophon
+   About and the solar arc
    -------------------------------------------------------------------------- */
+
+.about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: var(--s7);
+    align-items: start;
+}
 
 .prose p {
     margin: 0 0 var(--s4);
     max-width: var(--measure);
+    text-wrap: pretty;
 }
 
 .prose p:last-child {
     margin-bottom: 0;
 }
 
+.arc {
+    padding-top: var(--s3);
+    border-top: 1px solid var(--line);
+}
+
+.arc-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: var(--s3);
+    overflow: visible;
+}
+
+.arc-horizon {
+    stroke: var(--line);
+    stroke-width: 1;
+    fill: none;
+}
+
+.arc-path {
+    stroke: var(--ink);
+    stroke-width: 1.25;
+    fill: none;
+}
+
+.arc-sun {
+    fill: var(--day);
+    stroke: var(--ink);
+    stroke-width: 1;
+}
+
+.arc.is-night .arc-sun {
+    display: none;
+}
+
+.arc-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--s2);
+    font-size: 0.75rem;
+    color: var(--ink);
+}
+
+.arc-k {
+    color: var(--ink-2);
+}
+
+.arc-tip {
+    margin: var(--s2) 0 0;
+    min-height: 1.4em;
+    font-size: 0.75rem;
+    color: var(--ink-2);
+}
+
+/* --------------------------------------------------------------------------
+   Contact and colophon
+   -------------------------------------------------------------------------- */
+
 .email {
     display: inline-block;
+    max-width: 100%;
     padding-bottom: 0.08em;
     border-bottom: 2px solid var(--line);
-    font-family: var(--font-display);
     font-size: clamp(1.6rem, 4.2vw + 0.4rem, 3.5rem);
     font-weight: 600;
+    font-stretch: 94%;
     line-height: 1.05;
     letter-spacing: -0.02em;
     text-decoration: none;
     overflow-wrap: anywhere;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.25s ease, font-stretch 0.25s ease;
 }
 
+.email:hover,
 .email:focus-visible {
-    color: var(--ink);
-    border-color: var(--accent);
+    border-color: var(--red);
+    font-stretch: 100%;
+}
+
+.visitor {
+    margin: var(--s5) 0 0;
+    max-width: var(--measure);
+    color: var(--ink-2);
+    min-height: 1.4em;
 }
 
 .contact-links {
@@ -775,10 +1242,9 @@ main {
 }
 
 .contact-links a {
-    display: inline-block;
     min-width: 6em;
-    padding-block: var(--s1);
-    margin-block: calc(-1 * var(--s1));
+    padding-block: var(--s2);
+    margin-block: calc(-1 * var(--s2));
 }
 
 .contact-links span {
@@ -790,9 +1256,8 @@ main {
     margin: 0 auto;
     display: grid;
     grid-template-columns: var(--rail) minmax(0, 1fr);
-    gap: var(--s3) var(--s9);
-    align-items: baseline;
-    padding-block: var(--s8);
+    gap: var(--s6) var(--s9);
+    padding-block: var(--s6) var(--s8);
     border-top: 1px solid var(--line);
     font-size: 0.9375rem;
     color: var(--ink-2);
@@ -808,110 +1273,271 @@ main {
     max-width: var(--measure);
 }
 
+/* --------------------------------------------------------------------------
+   The lens (Tinyverse only) and hover parity
+   -------------------------------------------------------------------------- */
+
+.lens {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    width: 140px;
+    height: 140px;
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+    background-color: var(--bg-2);
+    background-repeat: no-repeat;
+    background-size: 240% auto;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
+.lens.is-on {
+    opacity: 1;
+}
+
+@media (hover: hover) {
+    a:hover {
+        color: var(--ink);
+        text-decoration-color: currentColor;
+    }
+
+    .masthead nav a:hover {
+        font-stretch: 108%;
+        text-decoration: underline;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Narrow screens
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .arc {
+        max-width: 420px;
+    }
+}
+
 @media (max-width: 900px) {
+    .section,
     .colophon {
         grid-template-columns: 1fr;
         gap: var(--s5);
         padding-block: var(--s7);
-    }
-}
-
-/* --------------------------------------------------------------------------
-   Hover, only where a pointer can hover. The keyboard twins sit with their
-   components above.
-   -------------------------------------------------------------------------- */
-
-@media (hover: hover) {
-    a:hover {
-        color: var(--accent-ink);
-        text-decoration-color: currentColor;
-    }
-
-    .masthead nav a:hover,
-    .hero-links a:hover {
-        text-decoration: underline;
-    }
-
-    .work:hover img {
-        border-color: var(--ink);
-        filter: brightness(1);
-    }
-
-    .work:hover .work-title {
-        color: var(--accent-ink);
-    }
-
-    .email:hover {
-        color: var(--ink);
-        border-color: var(--accent);
-    }
-
-    .role summary:hover {
-        color: var(--ink);
-        text-decoration-color: currentColor;
-    }
-}
-
-/* --------------------------------------------------------------------------
-   Motion preferences
-   -------------------------------------------------------------------------- */
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        transition: none !important;
-    }
-}
-
-/* --------------------------------------------------------------------------
-   Print: black on white in either theme, the ledger kept whole
-   -------------------------------------------------------------------------- */
-
-@media print {
-    :root:not([data-theme="light"]),
-    :root[data-theme="light"] {
-        color-scheme: light;
-        --bg: #fff;
-        --bg-2: #fff;
-        --ink: #000;
-        --ink-2: #333;
-        --line: #999;
-        --frame: #999;
-        --accent: #000;
-        --accent-ink: #000;
-        --img-dim: 1;
-    }
-
-    body {
-        padding-inline: 0;
-        font-size: 10.5pt;
-    }
-
-    .skip,
-    .clocks,
-    .hero-links,
-    .role details[open] > summary {
-        display: none;
     }
 
     .rail {
         position: static;
     }
 
-    .role,
-    .work-list > li,
-    .caps > div {
-        break-inside: avoid;
+    .rail-note {
+        max-width: var(--measure);
+    }
+}
+
+@media (max-width: 720px) {
+    :root {
+        --strip-h: 96px;
+    }
+
+    .strip-grid {
+        grid-template-columns: 1fr;
+        align-content: center;
+        gap: var(--s2);
+    }
+
+    .strip-label {
+        display: none;
+    }
+
+    .strip-lanes {
+        --name-w: calc(56px * (1 - var(--dock)));
+        --time-w: 0px;
+    }
+
+    .lane[data-city="lax"],
+    .lane[data-city="syd"] {
+        display: none;
+    }
+
+    .lane-time {
+        display: none;
+    }
+
+    .lane-hours {
+        margin-right: 0;
+    }
+
+    .playhead-input {
+        right: 0;
+    }
+
+    .pin-note {
+        display: none;
+    }
+
+    .strip-clocks {
+        gap: var(--s4);
+        align-items: baseline;
+    }
+
+    .clock {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 6px;
+    }
+
+    .clock-city {
+        height: auto;
+        opacity: 1;
+        line-height: 1;
+    }
+
+    .clock-name,
+    .clock-sun {
+        display: none;
+    }
+
+    .clock-code {
+        display: inline;
+        font-size: 0.75rem;
+    }
+
+    .clock-time {
+        font-size: 0.875rem;
+        letter-spacing: 0;
+    }
+
+    .masthead {
+        gap: var(--s3) var(--s4);
+        align-items: center;
+    }
+
+    .masthead nav {
+        order: 3;
+        flex-basis: 100%;
+    }
+
+    .rec {
+        order: 2;
+        margin-block: 0;
+    }
+
+    .hero {
+        padding-block: var(--s6) var(--s8);
+    }
+
+    .hero h1 {
+        font-size: 2.125rem;
+        max-width: none;
+    }
+
+    .work-list--large .frame,
+    .work-list--small {
+        grid-template-columns: 1fr;
+    }
+
+    .work-list--large .frame {
+        gap: var(--s4);
+    }
+
+    .work-list {
+        gap: var(--s7);
+    }
+
+    .role {
+        grid-template-columns: 1fr;
+        gap: var(--s1);
+    }
+
+    .role-dates {
+        padding-top: 0;
+    }
+
+    .caps {
+        grid-template-columns: 1fr;
+    }
+
+    .year-label,
+    .year-hours-label {
+        display: none;
+    }
+
+    .lens {
+        display: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Motion preferences and print
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+
+    .frame-scrub span {
+        transform: none;
+    }
+}
+
+@media print {
+    :root {
+        --bg: #fff;
+        --bg-2: #eee;
+        --ink: #000;
+        --ink-2: #333;
+        --line: #999;
+    }
+
+    .strip,
+    .rec,
+    .lens,
+    .years,
+    .arc,
+    .sentence,
+    .visitor,
+    .frame-chrome,
+    .frame-scrub,
+    .skip {
+        display: none !important;
+    }
+
+    .rail {
+        position: static;
+    }
+
+    .role details summary {
+        display: none;
     }
 
     .role details ul {
         margin-top: 0;
     }
 
-    .masthead nav a,
-    .work a {
-        color: inherit;
+    .frame-screen,
+    .frame-screen img,
+    .work,
+    .caps > div,
+    .prose p,
+    .email,
+    figcaption > * {
+        transform: none !important;
+        opacity: 1 !important;
+        clip-path: none !important;
+    }
+
+    a {
         text-decoration: none;
     }
 }
