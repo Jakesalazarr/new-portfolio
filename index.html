@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <canvas id="space" aria-hidden="true"></canvas>
     <!-- Navigation -->
     <nav class="nav">
         <div class="container nav-container">
@@ -35,7 +36,6 @@
 
     <!-- Hero Section -->
     <section id="hero" class="hero">
-        <canvas id="starfield"></canvas>
         <div class="container hero-container">
             <div class="hero-content">
                 <div class="hero-badge">
@@ -67,26 +67,71 @@
     <section id="projects" class="projects">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
-                <p class="section-subtitle">Showcasing expertise across multiple modern frameworks and technologies</p>
+                <h2 class="section-title">Featured <span class="gradient-text">Work</span></h2>
+                <p class="section-subtitle">Two products in the wild and four demos built to show how I work across stacks. Every card opens the live site.</p>
             </div>
-
-            <div class="projects-grid">
-                <!-- Project 1: Kura Angular -->
-                <article class="project-card" data-project="kura">
+            <h3 class="group-title">Products</h3>
+            <div class="projects-grid products-grid">
+                <article class="project-card">
                     <div class="project-image">
-                        <div class="project-placeholder kura-bg">
-                            <svg class="project-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <polyline points="9 22 9 12 15 12 15 22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
+                        <img class="project-shot" src="assets/work/wamivo.webp" width="1200" height="750" alt="Wamivo home page" loading="lazy">
                         <div class="project-overlay">
-                            <a href="https://kura-furniture.pages.dev/" class="overlay-btn" target="_blank">
+                            <a href="https://wamivo.com/" class="overlay-btn" target="_blank" rel="noopener">
+                                Visit Wamivo
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3.333h-2.667a1.333 1.333 0 0 0-1.333 1.334v8a1.333 1.333 0 0 0 1.333 1.333h8a1.333 1.333 0 0 0 1.334-1.333v-2.667m-4-6h5.333m0 0v5.333m0-5.333l-7.333 7.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="tag tag-nextjs">Chrome MV3</span>
+                            <span class="tag tag-typescript">Next.js</span>
+                            <span class="tag tag-cloudflare">Cloudflare Workers</span>
+                        </div>
+                        <h3 class="project-title">Wamivo</h3>
+                        <p class="project-description">Screen-recording Chrome extension and web app for async video messages. Built end to end: the extension, the Next.js app, and a backend on Cloudflare Workers, D1 and R2 with Supabase Auth and Paddle billing.</p>
+                        <div class="project-features">
+                            <span class="feature">Chrome Extension</span>
+                            <span class="feature">Edge Backend</span>
+                            <span class="feature">Paddle Billing</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="project-card">
+                    <div class="project-image">
+                        <img class="project-shot" src="assets/work/tinyverse.webp" width="1200" height="750" alt="Hidden Tiny Verse home page" loading="lazy">
+                        <div class="project-overlay">
+                            <a href="https://hiddentinyverse.com/" class="overlay-btn" target="_blank" rel="noopener">
+                                Visit the studio
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3.333h-2.667a1.333 1.333 0 0 0-1.333 1.334v8a1.333 1.333 0 0 0 1.333 1.333h8a1.333 1.333 0 0 0 1.334-1.333v-2.667m-4-6h5.333m0 0v5.333m0-5.333l-7.333 7.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="tag tag-swift">Swift</span>
+                            <span class="tag tag-api">SpriteKit</span>
+                            <span class="tag tag-material">iOS</span>
+                        </div>
+                        <h3 class="project-title">Hidden Tiny Verse</h3>
+                        <p class="project-description">Tinyverse, a hidden-object puzzle game for iOS with hand-drawn watercolor art. An independent studio and side project: game engine, core mechanics, scenes and touch interaction.</p>
+                        <div class="project-features">
+                            <span class="feature">Game Engine</span>
+                            <span class="feature">Hand-drawn Art</span>
+                            <span class="feature">iOS</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <h3 class="group-title">Demos</h3>
+            <div class="projects-grid">
+                <article class="project-card">
+                    <div class="project-image">
+                        <img class="project-shot" src="assets/work/kura.webp" width="1200" height="750" alt="Kura Furniture Store home page" loading="lazy">
+                        <div class="project-overlay">
+                            <a href="https://kura-furniture.pages.dev/" class="overlay-btn" target="_blank" rel="noopener">
                                 View Demo
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6 3.333h-2.667a1.333 1.333 0 0 0-1.333 1.334v8a1.333 1.333 0 0 0 1.333 1.333h8a1.333 1.333 0 0 0 1.334-1.333v-2.667m-4-6h5.333m0 0v5.333m0-5.333l-7.333 7.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3.333h-2.667a1.333 1.333 0 0 0-1.333 1.334v8a1.333 1.333 0 0 0 1.333 1.333h8a1.333 1.333 0 0 0 1.334-1.333v-2.667m-4-6h5.333m0 0v5.333m0-5.333l-7.333 7.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
                         </div>
                     </div>
@@ -97,10 +142,7 @@
                             <span class="tag tag-material">SCSS</span>
                         </div>
                         <h3 class="project-title">Kura Furniture Store</h3>
-                        <p class="project-description">
-                            Modern Scandinavian-inspired furniture ecommerce with elegant design,
-                            product catalog, shopping cart with LocalStorage, and seamless shopping experience.
-                        </p>
+                        <p class="project-description">Modern Scandinavian-inspired furniture ecommerce with elegant design, product catalog, filtering, a quick-view modal and a shopping cart kept in LocalStorage.</p>
                         <div class="project-features">
                             <span class="feature">Responsive Design</span>
                             <span class="feature">Product Filtering</span>
@@ -108,24 +150,13 @@
                         </div>
                     </div>
                 </article>
-
-                <!-- Project 2: Vogue React -->
-                <article class="project-card" data-project="vogue">
+                <article class="project-card">
                     <div class="project-image">
-                        <div class="project-placeholder vogue-bg">
-                            <svg class="project-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <circle cx="8.5" cy="7" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="20" y1="8" x2="20" y2="14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="23" y1="11" x2="17" y2="11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
+                        <img class="project-shot" src="assets/work/vault.webp" width="1200" height="750" alt="Jake's Vault home page" loading="lazy">
                         <div class="project-overlay">
-                            <a href="https://jakesvault.pages.dev/" class="overlay-btn" target="_blank">
+                            <a href="https://jakesvault.pages.dev/" class="overlay-btn" target="_blank" rel="noopener">
                                 View Demo
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6 3.333h-2.667a1.333 1.333 0 0 0-1.333 1.334v8a1.333 1.333 0 0 0 1.333 1.333h8a1.333 1.333 0 0 0 1.334-1.333v-2.667m-4-6h5.333m0 0v5.333m0-5.333l-7.333 7.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3.333h-2.667a1.333 1.333 0 0 0-1.333 1.334v8a1.333 1.333 0 0 0 1.333 1.333h8a1.333 1.333 0 0 0 1.334-1.333v-2.667m-4-6h5.333m0 0v5.333m0-5.333l-7.333 7.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
                         </div>
                     </div>
@@ -136,49 +167,32 @@
                             <span class="tag tag-tailwind">CSS</span>
                         </div>
                         <h3 class="project-title">Jake's Vault - Luxury Fashion</h3>
-                        <p class="project-description">
-                            Sophisticated luxury fashion boutique with minimalist black & white design,
-                            product filtering, shopping cart with LocalStorage, and elegant UX.
-                        </p>
+                        <p class="project-description">Sophisticated luxury fashion boutique with a minimalist black and white design, product filtering, a shopping cart and a checkout demo.</p>
                         <div class="project-features">
                             <span class="feature">Modern React 19</span>
                             <span class="feature">Cart System</span>
-                            <span class="feature">Product Filters</span>
+                            <span class="feature">Checkout Demo</span>
                         </div>
                     </div>
                 </article>
-
-                <!-- Project 3: ChatAI Python -->
-                <article class="project-card" data-project="chatai">
+                <article class="project-card">
                     <div class="project-image">
-                        <div class="project-placeholder chatai-bg">
-                            <svg class="project-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <circle cx="9" cy="10" r="1" fill="currentColor"/>
-                                <circle cx="12" cy="10" r="1" fill="currentColor"/>
-                                <circle cx="15" cy="10" r="1" fill="currentColor"/>
-                            </svg>
-                        </div>
+                        <img class="project-shot" src="assets/work/chatai.webp" width="1200" height="750" alt="ChatAI chat screen" loading="lazy">
                         <div class="project-overlay">
-                            <a href="https://querydesk.pages.dev/" class="overlay-btn" target="_blank">
+                            <a href="https://querydesk.pages.dev/" class="overlay-btn" target="_blank" rel="noopener">
                                 View Demo
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6 3.333h-2.667a1.333 1.333 0 0 0-1.333 1.334v8a1.333 1.333 0 0 0 1.333 1.333h8a1.333 1.333 0 0 0 1.334-1.333v-2.667m-4-6h5.333m0 0v5.333m0-5.333l-7.333 7.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3.333h-2.667a1.333 1.333 0 0 0-1.333 1.334v8a1.333 1.333 0 0 0 1.333 1.333h8a1.333 1.333 0 0 0 1.334-1.333v-2.667m-4-6h5.333m0 0v5.333m0-5.333l-7.333 7.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
                         </div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
-                            <span class="tag tag-python">Vanilla JS</span>
+                            <span class="tag tag-js">Vanilla JS</span>
                             <span class="tag tag-flask">HTML/CSS</span>
                             <span class="tag tag-ai">LocalStorage</span>
                         </div>
                         <h3 class="project-title">ChatAI Interface</h3>
-                        <p class="project-description">
-                            ChatGPT-inspired AI chat interface with clean dark design,
-                            mock AI responses, persistent chat history with LocalStorage, and smooth UX.
-                        </p>
+                        <p class="project-description">ChatGPT-inspired AI chat interface with a clean dark design, mock AI responses, persistent chat history in LocalStorage and Markdown rendering.</p>
                         <div class="project-features">
                             <span class="feature">Dark Theme</span>
                             <span class="feature">Chat History</span>
@@ -186,40 +200,27 @@
                         </div>
                     </div>
                 </article>
-
-                <!-- Project 4: Analytics Dashboard -->
-                <article class="project-card" data-project="dashboard">
+                <article class="project-card">
                     <div class="project-image">
-                        <div class="project-placeholder dashboard-bg">
-                            <svg class="project-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="3" y1="9" x2="21" y2="9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="9" y1="21" x2="9" y2="9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
+                        <img class="project-shot" src="assets/work/dashboard.webp" width="1200" height="750" alt="Analytics Dashboard overview screen" loading="lazy">
                         <div class="project-overlay">
-                            <a href="https://analytics-crypto-dashboard.pages.dev/" class="overlay-btn" target="_blank">
+                            <a href="https://analytics-crypto-dashboard.pages.dev/" class="overlay-btn" target="_blank" rel="noopener">
                                 View Demo
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6 3.333h-2.667a1.333 1.333 0 0 0-1.333 1.334v8a1.333 1.333 0 0 0 1.333 1.333h8a1.333 1.333 0 0 0 1.334-1.333v-2.667m-4-6h5.333m0 0v5.333m0-5.333l-7.333 7.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3.333h-2.667a1.333 1.333 0 0 0-1.333 1.334v8a1.333 1.333 0 0 0 1.333 1.333h8a1.333 1.333 0 0 0 1.334-1.333v-2.667m-4-6h5.333m0 0v5.333m0-5.333l-7.333 7.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
                         </div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
-                            <span class="tag tag-nextjs">Next.js 15</span>
-                            <span class="tag tag-api">React 19</span>
-                            <span class="tag tag-charts">Tailwind 4</span>
+                            <span class="tag tag-js">Vanilla JS</span>
+                            <span class="tag tag-charts">Chart.js</span>
+                            <span class="tag tag-api">Canvas</span>
                         </div>
                         <h3 class="project-title">Analytics Dashboard</h3>
-                        <p class="project-description">
-                            Comprehensive dark-mode analytics dashboard with real-time metrics,
-                            interactive data visualizations, live clock, and elegant gradient charts.
-                        </p>
+                        <p class="project-description">Dark-mode crypto analytics dashboard with live metrics, search, a real-time clock and interactive Chart.js visualizations.</p>
                         <div class="project-features">
                             <span class="feature">Real-time Clock</span>
-                            <span class="feature">Dark Mode</span>
+                            <span class="feature">Search</span>
                             <span class="feature">Interactive Charts</span>
                         </div>
                     </div>
@@ -597,6 +598,8 @@
         </div>
     </footer>
 
+    <script type="importmap">{"imports":{"three":"https://cdnjs.cloudflare.com/ajax/libs/three.js/0.180.0/three.module.min.js"}}</script>
+    <script type="module" src="space.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
