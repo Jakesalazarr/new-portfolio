@@ -493,8 +493,8 @@ import * as THREE from 'three';
         const wide = w >= 900;
         // ice giant and moon: the hero, right of the headline (above it on phones)
         const heroY = -sectionAnchor('hero', 'center') * K;
-        iceGiant.position.set(wide ? 4.9 : 2.7, heroY + (wide ? -0.6 : 4.7), -11.5);
-        iceGiant.scale.setScalar(wide ? 1 : 0.5);
+        iceGiant.position.set(wide ? 4.9 : 1.9, heroY + (wide ? -0.6 : -4.9), -11.5);
+        iceGiant.scale.setScalar(wide ? 1 : 0.4);
         anchors.moonCenter = iceGiant.position.clone();
         anchors.moonR = 2.9 * iceGiant.scale.x;
         // ringed giant: rises at the left as the work section arrives, well clear of the hero buttons
