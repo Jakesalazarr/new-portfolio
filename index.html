@@ -14,7 +14,7 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23c8381f'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@500..600&family=Funnel+Sans:wght@400..500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -33,112 +33,100 @@
 
     <main id="main">
         <section class="hero" id="top" aria-labelledby="hero-title">
-            <p class="now mono"><span class="rec" aria-hidden="true"></span>Now: Chief AI Engineer at <a href="https://wamivo.com/" target="_blank" rel="noopener">Wamivo</a>, since November 2025</p>
-            <h1 id="hero-title">I ship full-stack products, and lately the AI inside them.</h1>
-            <div class="hero-grid">
-                <div>
-                    <p class="lede">At Wamivo I built a screen-recording Chrome extension and web app end to end on Cloudflare Workers, D1 and R2, and I now lead its AI engineering: LLM features with Anthropic Claude and OpenAI, MCP servers, and local models with Ollama. Before that, ten years of React, Angular, Python and Node for teams in Los Angeles, Sydney, Singapore and Manila.</p>
-                    <p class="hero-links">
-                        <a href="#work">Selected work &darr;</a>
-                        <a href="mailto:salazarjake44@gmail.com">Email me &rarr;</a>
-                    </p>
-                </div>
-                <aside class="clocks" aria-label="Local time where I work">
-                    <p class="label">Working hours, live</p>
-                    <dl class="clock-list mono">
-                        <div><dt>Manila</dt><dd><time data-tz="Asia/Manila">--:--</time></dd></div>
-                        <div><dt>Los Angeles</dt><dd><time data-tz="America/Los_Angeles">--:--</time></dd></div>
-                        <div><dt>Sydney</dt><dd><time data-tz="Australia/Sydney">--:--</time></dd></div>
-                        <div><dt>Singapore</dt><dd><time data-tz="Asia/Singapore">--:--</time></dd></div>
-                    </dl>
-                    <p class="clock-note">Dimmed cities are outside 8:00 to 19:00 local time. I have overlapped with all four for years.</p>
-                </aside>
+            <p class="now mono"><span class="rec" aria-hidden="true"></span><span>Now: Chief AI Engineer at <a href="https://wamivo.com/" target="_blank" rel="noopener">Wamivo</a>, since November 2025</span></p>
+            <h1 id="hero-title">Full-stack developer, ten years in. Currently building a screen recorder and its AI.</h1>
+            <div class="hero-body">
+                <p class="lede">At Wamivo I built the Chrome extension, the web app and the backend, and now I handle the AI side, integrating Claude, OpenAI, MCP servers and Ollama into product features. Before that, from 2020 to 2025, I wrote React, Python and Node for teams in Singapore, Australia and Los Angeles.</p>
+                <p class="hero-links"><a href="mailto:salazarjake44@gmail.com">salazarjake44@gmail.com</a></p>
             </div>
+            <aside class="clocks" aria-label="Local time for the teams I have worked with">
+                <p class="label">Local time</p>
+                <dl class="clock-list mono">
+                    <div><dt>Manila</dt><dd><time data-tz="Asia/Manila">--:--</time><span class="sr-only clock-state"></span></dd></div>
+                    <div><dt>Los Angeles</dt><dd><time data-tz="America/Los_Angeles">--:--</time><span class="sr-only clock-state"></span></dd></div>
+                    <div><dt>Sydney</dt><dd><time data-tz="Australia/Sydney">--:--</time><span class="sr-only clock-state"></span></dd></div>
+                </dl>
+                <p class="clock-note">Dimmed cities are outside 08:00 to 19:00 local time. I work from Manila and kept US Pacific hours from 2023 to 2025.</p>
+            </aside>
         </section>
 
         <section class="section" id="work" aria-labelledby="work-title">
             <div class="rail">
                 <h2 class="label" id="work-title">Selected work</h2>
-                <p class="rail-note">Two products in the wild, and four demos built to show how I work across stacks. Every image links to the live thing.</p>
+                <p class="rail-note">Two products, four demos. Each opens the live site.</p>
             </div>
             <div class="content">
                 <h3 class="group-title">Products</h3>
                 <ul class="work-list work-list--large">
-                    <li>
-                        <a class="work" href="https://wamivo.com/" target="_blank" rel="noopener">
-                            <figure>
-                                <img src="assets/work/wamivo.webp" width="1200" height="750" alt="Wamivo landing page, a screen recorder Chrome extension" loading="lazy">
-                                <figcaption>
-                                    <span class="work-title">Wamivo</span>
-                                    <span class="work-desc">Screen-recording Chrome extension and web app for async video messages. Unlimited recordings, free and Pro plans, built and run by me.</span>
-                                    <span class="work-meta mono">2025 to now · Chrome MV3, Next.js, Cloudflare Workers, D1, R2, Supabase, Paddle · wamivo.com</span>
-                                </figcaption>
-                            </figure>
-                        </a>
+                    <li class="work">
+                        <figure>
+                            <img src="assets/work/wamivo.webp" width="1200" height="750" alt="Wamivo home page" loading="lazy">
+                            <figcaption>
+                                <a class="work-title" href="https://wamivo.com/" target="_blank" rel="noopener">Wamivo<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-desc">Screen-recording Chrome extension and web app for async video messages. Unlimited free recordings, subscriptions through Paddle. Built and run by me.</span>
+                                <span class="work-meta mono">2025 to now · Chrome MV3, Next.js, Cloudflare Workers, D1, R2, Supabase, Paddle</span>
+                                <span class="work-host mono">wamivo.com</span>
+                            </figcaption>
+                        </figure>
                     </li>
-                    <li>
-                        <a class="work" href="https://hiddentinyverse.com/" target="_blank" rel="noopener">
-                            <figure>
-                                <img src="assets/work/tinyverse.webp" width="1200" height="750" alt="Hidden Tiny Verse website for the Tinyverse puzzle game" loading="lazy">
-                                <figcaption>
-                                    <span class="work-title">Hidden Tiny Verse</span>
-                                    <span class="work-desc">Tinyverse, a hidden-object puzzle game for iOS with hand-drawn watercolor art. Side project, engine and mechanics written from scratch.</span>
-                                    <span class="work-meta mono">2025 to now · Swift, SpriteKit · hiddentinyverse.com</span>
-                                </figcaption>
-                            </figure>
-                        </a>
+                    <li class="work">
+                        <figure>
+                            <img src="assets/work/tinyverse.webp" width="1200" height="750" alt="Hidden Tiny Verse home page" loading="lazy">
+                            <figcaption>
+                                <a class="work-title" href="https://hiddentinyverse.com/" target="_blank" rel="noopener">Hidden Tiny Verse<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-desc">Tinyverse, a hidden-object puzzle game for iOS with hand-drawn watercolor art. Side project.</span>
+                                <span class="work-meta mono">2025 to now · Swift, SpriteKit</span>
+                                <span class="work-host mono">hiddentinyverse.com</span>
+                            </figcaption>
+                        </figure>
                     </li>
                 </ul>
 
                 <h3 class="group-title group-title--later">Demos</h3>
                 <ul class="work-list work-list--small">
-                    <li>
-                        <a class="work" href="https://kura-furniture.pages.dev/" target="_blank" rel="noopener">
-                            <figure>
-                                <img src="assets/work/kura.webp" width="1200" height="750" alt="Kura furniture store demo" loading="lazy">
-                                <figcaption>
-                                    <span class="work-title">Kura Furniture Store</span>
-                                    <span class="work-desc">Scandinavian furniture shop with a catalog, filtering, quick-view modal and a cart kept in LocalStorage.</span>
-                                    <span class="work-meta mono">Angular 17, TypeScript, SCSS · kura-furniture.pages.dev</span>
-                                </figcaption>
-                            </figure>
-                        </a>
+                    <li class="work">
+                        <figure>
+                            <img src="assets/work/kura.webp" width="1200" height="750" alt="Kura Furniture Store home page" loading="lazy">
+                            <figcaption>
+                                <a class="work-title" href="https://kura-furniture.pages.dev/" target="_blank" rel="noopener">Kura Furniture Store<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-desc">Scandinavian furniture shop with a catalog, filtering, quick-view modal and a cart kept in LocalStorage.</span>
+                                <span class="work-meta mono">Angular 17, TypeScript, SCSS</span>
+                                <span class="work-host mono">kura-furniture.pages.dev</span>
+                            </figcaption>
+                        </figure>
                     </li>
-                    <li>
-                        <a class="work" href="https://jakesvault.pages.dev/" target="_blank" rel="noopener">
-                            <figure>
-                                <img src="assets/work/vault.webp" width="1200" height="750" alt="Jake's Vault fashion boutique demo" loading="lazy">
-                                <figcaption>
-                                    <span class="work-title">Jake's Vault</span>
-                                    <span class="work-desc">Black-and-white luxury fashion boutique with product filters, a cart and a checkout demo.</span>
-                                    <span class="work-meta mono">React 19, Vite · jakesvault.pages.dev</span>
-                                </figcaption>
-                            </figure>
-                        </a>
+                    <li class="work">
+                        <figure>
+                            <img src="assets/work/vault.webp" width="1200" height="750" alt="Jake&rsquo;s Vault home page" loading="lazy">
+                            <figcaption>
+                                <a class="work-title" href="https://jakesvault.pages.dev/" target="_blank" rel="noopener">Jake&rsquo;s Vault<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-desc">Black-and-white luxury fashion boutique with product filters, a cart and a checkout demo.</span>
+                                <span class="work-meta mono">React 19, Vite</span>
+                                <span class="work-host mono">jakesvault.pages.dev</span>
+                            </figcaption>
+                        </figure>
                     </li>
-                    <li>
-                        <a class="work" href="https://querydesk.pages.dev/" target="_blank" rel="noopener">
-                            <figure>
-                                <img src="assets/work/chatai.webp" width="1200" height="750" alt="ChatAI chat interface demo" loading="lazy">
-                                <figcaption>
-                                    <span class="work-title">ChatAI</span>
-                                    <span class="work-desc">ChatGPT-style chat interface with mock replies, persistent history and Markdown rendering.</span>
-                                    <span class="work-meta mono">Vanilla JavaScript, HTML, CSS · querydesk.pages.dev</span>
-                                </figcaption>
-                            </figure>
-                        </a>
+                    <li class="work">
+                        <figure>
+                            <img src="assets/work/chatai.webp" width="1200" height="750" alt="ChatAI chat screen" loading="lazy">
+                            <figcaption>
+                                <a class="work-title" href="https://querydesk.pages.dev/" target="_blank" rel="noopener">ChatAI<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-desc">ChatGPT-style chat interface with mock replies, persistent history and Markdown rendering.</span>
+                                <span class="work-meta mono">Vanilla JavaScript, HTML, CSS</span>
+                                <span class="work-host mono">querydesk.pages.dev</span>
+                            </figcaption>
+                        </figure>
                     </li>
-                    <li>
-                        <a class="work" href="https://analytics-crypto-dashboard.pages.dev/" target="_blank" rel="noopener">
-                            <figure>
-                                <img src="assets/work/dashboard.webp" width="1200" height="750" alt="Crypto analytics dashboard demo" loading="lazy">
-                                <figcaption>
-                                    <span class="work-title">Analytics Dashboard</span>
-                                    <span class="work-desc">Dark-mode crypto analytics dashboard with live metrics, search and interactive charts.</span>
-                                    <span class="work-meta mono">Vanilla JavaScript, Chart.js · analytics-crypto-dashboard.pages.dev</span>
-                                </figcaption>
-                            </figure>
-                        </a>
+                    <li class="work">
+                        <figure>
+                            <img src="assets/work/dashboard.webp" width="1200" height="750" alt="Analytics Dashboard overview screen" loading="lazy">
+                            <figcaption>
+                                <a class="work-title" href="https://analytics-crypto-dashboard.pages.dev/" target="_blank" rel="noopener">Analytics Dashboard<span class="sr-only"> (opens in a new tab)</span></a>
+                                <span class="work-desc">Crypto analytics dashboard with live metrics, search and interactive charts.</span>
+                                <span class="work-meta mono">Vanilla JavaScript, Chart.js</span>
+                                <span class="work-host mono">analytics-crypto-dashboard.pages.dev</span>
+                            </figcaption>
+                        </figure>
                     </li>
                 </ul>
             </div>
@@ -147,7 +135,6 @@
         <section class="section" id="experience" aria-labelledby="exp-title">
             <div class="rail">
                 <h2 class="label" id="exp-title">Experience</h2>
-                <p class="rail-note">Roles since 2018, most recent first. Open an entry for the detail.</p>
             </div>
             <div class="content">
                 <ol class="roles">
@@ -156,11 +143,11 @@
                         <div class="role-body">
                             <h3 class="role-title">Chief AI Engineer</h3>
                             <p class="role-org"><a href="https://wamivo.com/" target="_blank" rel="noopener">Wamivo</a></p>
-                            <p class="role-summary">Own the AI engineering for a screen-recording SaaS that I also architected and shipped end to end.</p>
-                            <details>
-                                <summary>What that involved</summary>
+                            <p class="role-summary">Lead the AI engineering at Wamivo, and still run the extension, web app and backend I built.</p>
+                            <details open>
+                                <summary>Detail<span class="sr-only"> at Wamivo</span></summary>
                                 <ul>
-                                    <li>Lead AI engineering for Wamivo's screen recording SaaS: integrating LLMs (Anthropic Claude, OpenAI), MCP servers and local inference models (Ollama) into product features and development workflows.</li>
+                                    <li>Integrate LLMs (Anthropic Claude, OpenAI), MCP servers and local inference models (Ollama) into product features and development workflows.</li>
                                     <li>Built a Chrome MV3 screen recording extension and the Next.js web app around it: real-time webcam overlay, mic-reactive audio visualization, progressive multipart uploads to Cloudflare R2, and no per-site permission prompts thanks to an offscreen-document architecture.</li>
                                     <li>Architected the backend on Cloudflare Workers (Hono.js) with D1 for metadata and R2 for video storage.</li>
                                     <li>Integrated Supabase Auth for cookie-based SSR sessions and Paddle Billing for the subscription lifecycle, webhooks and self-service plan management.</li>
@@ -169,19 +156,12 @@
                             </details>
                         </div>
                     </li>
-                    <li class="role role--side">
+                    <li class="role">
                         <p class="role-dates mono"><time datetime="2025-06">Jun 2025</time> to now</p>
                         <div class="role-body">
-                            <h3 class="role-title">Hidden Tiny Verse <span class="tag">Side project</span></h3>
-                            <p class="role-org">Independent iOS studio · <a href="https://hiddentinyverse.com/" target="_blank" rel="noopener">hiddentinyverse.com</a></p>
-                            <p class="role-summary">Tinyverse, a hidden-object puzzle game with hand-drawn watercolor art.</p>
-                            <details>
-                                <summary>What that involved</summary>
-                                <ul>
-                                    <li>Built the game engine and core mechanics in Swift and SpriteKit: scene management, animations and touch interaction.</li>
-                                    <li>Art direction for the watercolor style, level design and App Store presence.</li>
-                                </ul>
-                            </details>
+                            <h3 class="role-title">Hidden Tiny Verse</h3>
+                            <p class="role-org">Side project at my own iOS studio, <a href="https://hiddentinyverse.com/" target="_blank" rel="noopener">hiddentinyverse.com</a></p>
+                            <p class="role-summary">The game engine and core mechanics for Tinyverse in Swift and SpriteKit, covering scene management, animations and touch interaction.</p>
                         </div>
                     </li>
                     <li class="role">
@@ -189,9 +169,9 @@
                         <div class="role-body">
                             <h3 class="role-title">Senior Full Stack Developer</h3>
                             <p class="role-org">Social Scale, Australia, and Farahi Law Firm, Los Angeles</p>
-                            <p class="role-summary">Enterprise React and Python applications for two clients, working in US Pacific hours from Manila.</p>
+                            <p class="role-summary">Enterprise React and Python applications for Social Scale and Farahi Law Firm, working in US Pacific hours from Manila.</p>
                             <details>
-                                <summary>What that involved</summary>
+                                <summary>Detail<span class="sr-only"> at Social Scale and Farahi Law Firm</span></summary>
                                 <ul>
                                     <li>Architected enterprise React and Python (Django, Flask) applications serving 1,000+ concurrent users with 99.9% uptime.</li>
                                     <li>Cut query response times by 65% through indexing and query optimization.</li>
@@ -209,7 +189,7 @@
                             <p class="role-org">Aureas Media, Singapore</p>
                             <p class="role-summary">Built Cuura, an e-commerce back office, and the services behind it.</p>
                             <details>
-                                <summary>What that involved</summary>
+                                <summary>Detail<span class="sr-only"> at Aureas Media</span></summary>
                                 <ul>
                                     <li>Developed the Cuura e-commerce back office with a React frontend and Express.js and Python services, serving 1,000+ students.</li>
                                     <li>Built a distributed microservices architecture for real-time student progress tracking.</li>
@@ -227,7 +207,7 @@
                             <p class="role-org">Accenture</p>
                             <p class="role-summary">Learning-management features in React and Python for Fortune 500 clients.</p>
                             <details>
-                                <summary>What that involved</summary>
+                                <summary>Detail<span class="sr-only"> at Accenture</span></summary>
                                 <ul>
                                     <li>Built enterprise learning management features in React and Python.</li>
                                     <li>Implemented secure API authentication with OAuth 2.0 and JWT.</li>
@@ -244,7 +224,7 @@
                             <p class="role-org">New Promise Construction</p>
                             <p class="role-summary">A training platform for construction workers, built offline-first.</p>
                             <details>
-                                <summary>What that involved</summary>
+                                <summary>Detail<span class="sr-only"> at New Promise Construction</span></summary>
                                 <ul>
                                     <li>Developed the training platform in React and Node.js.</li>
                                     <li>Built progress tracking for skill development and certifications.</li>
@@ -260,13 +240,12 @@
         <section class="section" id="capabilities" aria-labelledby="caps-title">
             <div class="rail">
                 <h2 class="label" id="caps-title">Capabilities</h2>
-                <p class="rail-note">What I reach for, grouped by where it lives.</p>
             </div>
             <div class="content">
                 <dl class="caps">
                     <div>
                         <dt>Frontend</dt>
-                        <dd>React 16 to 19, Angular 17, TypeScript, Next.js 15, Redux Toolkit, React Query, Tailwind CSS, SCSS, Material UI, Ant Design, Jest, React Testing Library, Cypress</dd>
+                        <dd>React 16 to 19, Angular 17, TypeScript, Next.js, Redux Toolkit, React Query, Tailwind CSS, SCSS, Material UI, Ant Design, Jest, React Testing Library, Cypress</dd>
                     </div>
                     <div>
                         <dt>Backend and data</dt>
@@ -278,7 +257,7 @@
                     </div>
                     <div>
                         <dt>AI engineering</dt>
-                        <dd>LLM integration (Anthropic Claude, OpenAI), prompt design, MCP servers, RAG pipelines, tool use and function calling, local inference with Ollama, AI-assisted development workflows</dd>
+                        <dd>LLM integration (Anthropic Claude, OpenAI), prompt design, MCP servers, RAG pipelines, tool use and function calling, local inference with Ollama, AI&#8209;assisted development workflows</dd>
                     </div>
                 </dl>
             </div>
@@ -289,16 +268,15 @@
                 <h2 class="label" id="about-title">About</h2>
             </div>
             <div class="content prose">
-                <p>I'm Jacob Israel R. Salazar, based in Manila. For most of the last decade I've worked remotely with teams in Los Angeles, Sydney and Singapore, so async updates, clear handoffs and shipping without a manager in the room are normal for me.</p>
-                <p>I like owning the whole product, from the schema and the API to the interface and the polish that makes it feel finished. Wamivo is the clearest example: one person, one codebase, shipped and in use.</p>
-                <p>Outside work I'm making Tinyverse with Hidden Tiny Verse Studio, a hidden-object puzzle game for iOS with hand-drawn watercolor art, written in Swift and SpriteKit. I studied Computer Science at De La Salle University Manila (2014 to 2018).</p>
+                <p>I live in Manila. Since 2020 I&rsquo;ve worked remotely with teams in Singapore, Australia and Los Angeles, so async updates and clear handoffs are how I work.</p>
+                <p>I prefer to own a whole product, from the database schema to the interface. Wamivo is the current example. I architected and shipped it, and I run it on my own.</p>
+                <p>Outside work I run Hidden Tiny Verse Studio, an indie iOS game company, and I&rsquo;m writing its game, Tinyverse, in Swift and SpriteKit. I studied Computer Science at De La Salle University Manila, 2014 to 2018.</p>
             </div>
         </section>
 
         <section class="section" id="contact" aria-labelledby="contact-title">
             <div class="rail">
                 <h2 class="label" id="contact-title">Contact</h2>
-                <p class="rail-note">Email is the fastest way to reach me.</p>
             </div>
             <div class="content">
                 <a class="email" href="mailto:salazarjake44@gmail.com">salazarjake44@gmail.com</a>
@@ -312,8 +290,12 @@
     </main>
 
     <footer class="colophon">
-        <p>Set in Funnel Display, Funnel Sans and IBM Plex Mono. Hand-written HTML and CSS with one small script for the clocks; no framework, no tracking. Hosted on Cloudflare Pages.</p>
-        <p class="mono">Last updated September 2026 · © 2026 Jacob Israel R. Salazar</p>
+        <p class="label">Colophon</p>
+        <div>
+            <p>Set in Funnel Display, Funnel Sans and IBM Plex Mono. Hand-written HTML and CSS with one small script for the clocks and for printing; no framework, no tracking. Hosted on Cloudflare Pages.</p>
+            <p class="mono">Last updated September 2026</p>
+            <p class="mono">&copy; 2026 Jacob Israel R. Salazar</p>
+        </div>
     </footer>
 
     <script src="script.js" defer></script>
